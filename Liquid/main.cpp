@@ -27,6 +27,8 @@ Game_Conduct    game_conduct;
 
 Scene_State     state;
 
+Stage_Select    stage_select;
+
 //
 // 定義ここまで
 //////////////////////////////////////////////////////////////////////////
@@ -73,12 +75,16 @@ void Scene_Title::end(void)
 void Scene_Choice::init(void)
 {
     choice_bg.init(&choice_bg);
+    stage_select.init(&stage_select);
 }
 
 // ステージ選択更新処理
 void Scene_Choice::update(int GameTime)
 {
     choice_bg.update(&choice_bg);
+
+    stage_select.update(&stage_select);
+
     choice_conduct.updateDebug(&choice_conduct, &usable);   // debug
 }
 
@@ -86,6 +92,9 @@ void Scene_Choice::update(int GameTime)
 void Scene_Choice::draw(int GameTime)
 {
     choice_bg.draw(&choice_bg);
+
+    stage_select.draw(&stage_select);
+
     sys.drawDebugString();              // debug
 }
 
@@ -93,6 +102,8 @@ void Scene_Choice::draw(int GameTime)
 void Scene_Choice::end(void)
 {
     choice_bg.end(&choice_bg);
+
+    stage_select.end(&stage_select);
 }
 
 //
