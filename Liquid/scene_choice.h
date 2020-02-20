@@ -33,6 +33,7 @@ public:
     void update(Stage_Select* stage_select);
     void draw(Stage_Select* stage_select);
     void end(Stage_Select* stage_select);
+    int reNum(Stage_Select* stage_select);
 
     int numStage;
     int timer;

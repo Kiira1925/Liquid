@@ -32,6 +32,8 @@ void Choice_Conduct::updateDebug(Choice_Conduct* choice_conduct, Usable* usable)
     if (Input::GetInstance()->GetKeyDown(KEY_INPUT_1)) usable->changeSceneStateInit(Title);
     if (Input::GetInstance()->GetKeyDown(KEY_INPUT_2)) usable->changeSceneStateInit(Choice);
     if (Input::GetInstance()->GetKeyDown(KEY_INPUT_3)) usable->changeSceneStateInit(Game);
+
+    if (Input::GetInstance()->GetKey(KEY_INPUT_RETURN)) { usable->changeSceneStateInit(Game); }
 }
 
 void Stage_Select::init(Stage_Select* stage_select) 
@@ -312,7 +314,7 @@ void Stage_Select::end(Stage_Select* stage_select)
     
 }
 
-int StageNum(int number) 
+int Stage_Select::reNum(Stage_Select* stage_select) 
 {
-    return number + 1;
+    return  stage_select->numStage+ 1;
 }
