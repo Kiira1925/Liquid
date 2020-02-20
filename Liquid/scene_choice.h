@@ -36,7 +36,8 @@ public:
 
     int numStage;
     int timer;
-    int flgtimer;
+    int flg;
+    float ease;
 private:
     int sizeX = 1920;
     int sizeY = 1080;
