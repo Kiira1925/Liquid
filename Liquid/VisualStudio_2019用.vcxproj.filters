@@ -71,5 +71,28 @@
     <Filter Include="ヘッダーファイル">
       <UniqueIdentifier>{3fbd5477-635b-48d2-a925-e8044eb6d6c7}</UniqueIdentifier>
     </Filter>
+    <ClCompile Include="easing.cpp" />
+    <ClCompile Include="input.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="map.cpp" />
+    <ClCompile Include="scene_choice.cpp" />
+    <ClCompile Include="scene_game.cpp" />
+    <ClCompile Include="scene_title.cpp" />
+    <ClCompile Include="system.cpp" />
+    <ClCompile Include="player.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="common.h" />
+    <ClInclude Include="DxLibFile\DxLib.h" />
+    <ClInclude Include="easing.h" />
+    <ClInclude Include="input.h" />
+    <ClInclude Include="main.h" />
+    <ClInclude Include="map.h" />
+    <ClInclude Include="scene_choice.h" />
+    <ClInclude Include="scene_game.h" />
+    <ClInclude Include="scene_title.h" />
+    <ClInclude Include="system.h" />
+    <ClInclude Include="singleton.h" />
+    <ClInclude Include="player.h" />
   </ItemGroup>
 </Project>

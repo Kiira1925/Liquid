@@ -5,6 +5,7 @@
 
 void Player::init() 
 {
+	posX = 0;
 }
 
 void Player::update() 

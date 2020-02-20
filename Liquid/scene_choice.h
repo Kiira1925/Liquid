@@ -33,11 +33,13 @@ public:
     void update(Stage_Select* stage_select);
     void draw(Stage_Select* stage_select);
     void end(Stage_Select* stage_select);
+    int reNum(Stage_Select* stage_select);
 
     int numStage;
     int timer;
     int flg;
     float ease;
+    float easePosX;
 private:
     int sizeX = 1920;
     int sizeY = 1080;
