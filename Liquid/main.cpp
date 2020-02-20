@@ -8,6 +8,7 @@
 #include "scene_title.h"
 #include "system.h"
 #include "map.h"
+#include "relative.h"
 
 //////////////////////////////////////////////////////////////////////////
 //	各ゲームで使用するクラスインスタンスやグローバル変数はここに記述
@@ -25,6 +26,7 @@ Scene_Game      game;
 Game_Bg         game_bg;
 Game_Conduct    game_conduct;
 Map             map;
+Relative        relative;
 
 Scene_State     state;
 
@@ -125,6 +127,7 @@ void Scene_Game::init(void)
 // ゲーム更新処理
 void Scene_Game::update(int GameTime)
 {
+    relative.cal_relative_pos(map);
     game_bg.update(&game_bg);
     game_conduct.updateDebug(&game_conduct, &usable);   // debug
 }

@@ -16,15 +16,6 @@ private:
 	int map_data[MAPDATA_V_MAX][MAPDATA_H_MAX];
 	const char* MapFileName;
 	const char* ObjFileName;
-	//char StageFile1[24] = "Data\\Map\\Stage1.csv\0";
-	//char StageFile2[24] = "Data\\Map\\Stage2.csv\0";
-	//char StageFile3[24] = "Data\\Map\\Stage3.csv\0";
-	//char StageFile4[24] = "Data\\Map\\Stage4.csv\0";
-	//char StageFile5[24] = "Data\\Map\\Stage5.csv\0";
-	//char StageFile6[24] = "Data\\Map\\Stage6.csv\0";
-	//char StageFile7[24] = "Data\\Map\\Stage7.csv\0";
-	//char StageFile8[24] = "Data\\Map\\Stage8.csv\0";
-	//char StageFile9[24] = "Data\\Map\\Stage9.csv\0";
 public:
 	void init(int stage_num);
 	void update();
