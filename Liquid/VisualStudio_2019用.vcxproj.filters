@@ -24,9 +24,6 @@
     <ClInclude Include="input.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="light.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="common.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -43,6 +40,7 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="easing.h">
+    <ClInclude Include="map.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -51,9 +49,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="input.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="light.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="scene_title.cpp">
@@ -69,6 +64,7 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="easing.cpp">
+    <ClCompile Include="map.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

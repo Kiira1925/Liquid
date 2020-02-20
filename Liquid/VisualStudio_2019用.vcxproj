@@ -159,7 +159,7 @@
     <ClCompile Include="easing.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="light.cpp" />
+    <ClCompile Include="map.cpp" />
     <ClCompile Include="scene_choice.cpp" />
     <ClCompile Include="scene_game.cpp" />
     <ClCompile Include="scene_title.cpp" />
@@ -171,7 +171,7 @@
     <ClInclude Include="easing.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="main.h" />
-    <ClInclude Include="light.h" />
+    <ClInclude Include="map.h" />
     <ClInclude Include="scene_choice.h" />
     <ClInclude Include="scene_game.h" />
     <ClInclude Include="scene_title.h" />
