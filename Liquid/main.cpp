@@ -7,8 +7,8 @@
 #include "scene_game.h"
 #include "scene_title.h"
 #include "system.h"
+#include "map.h"
 
-//コミットテスト2!
 //////////////////////////////////////////////////////////////////////////
 //	各ゲームで使用するクラスインスタンスやグローバル変数はここに記述
 //
@@ -24,6 +24,7 @@ Choice_Conduct  choice_conduct;
 Scene_Game      game;
 Game_Bg         game_bg;
 Game_Conduct    game_conduct;
+Map             map;
 
 Scene_State     state;
 
@@ -107,6 +108,7 @@ void Scene_Choice::end(void)
 void Scene_Game::init(void)
 {
     game_bg.init(&game_bg);
+    map.init(0);
 }
 
 // ゲーム更新処理
@@ -120,6 +122,7 @@ void Scene_Game::update(int GameTime)
 void Scene_Game::draw(int GameTime)
 {
     game_bg.draw(&game_bg);
+    map.draw();
     sys.drawDebugString();      // debug
 }
 

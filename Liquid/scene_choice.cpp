@@ -31,3 +31,5 @@ void Choice_Conduct::updateDebug(Choice_Conduct* choice_conduct, Usable* usable)
     if (Input::GetInstance()->GetKeyDown(KEY_INPUT_2)) usable->changeSceneStateInit(Choice);
     if (Input::GetInstance()->GetKeyDown(KEY_INPUT_3)) usable->changeSceneStateInit(Game);
 }
+
+
