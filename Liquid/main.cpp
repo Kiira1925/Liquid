@@ -8,6 +8,7 @@
 #include "scene_title.h"
 #include "system.h"
 #include "map.h"
+#include "player.h"
 
 //////////////////////////////////////////////////////////////////////////
 //	各ゲームで使用するクラスインスタンスやグローバル変数はここに記述
@@ -49,6 +50,7 @@ void Scene_Title::update(int GameTime)
 {
     title_bg.update(&title_bg);
     title_conduct.updateDebug(&title_conduct, &usable);     // debug
+    Player::getInstance()->update();
 }
 
 // タイトル描画処理

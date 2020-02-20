@@ -16,9 +16,9 @@ public:
     virtual void update(void) {};
     virtual void draw(void) {};
     virtual void end(void) {};
-
-protected:
     float posX = 0;
+protected:
+
     float posY = 0;
     int width = 0;
     int height = 0;

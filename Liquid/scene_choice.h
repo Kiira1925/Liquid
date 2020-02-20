@@ -39,6 +39,7 @@ public:
     int timer;
     int flg;
     float ease;
+    float easePosX;
 private:
     int sizeX = 1920;
     int sizeY = 1080;
