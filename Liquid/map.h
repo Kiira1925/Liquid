@@ -4,6 +4,7 @@
 #include <stdio.h>
 
 // íËêî ----------------------------------------------------------------
+#define		CHIP_SIZE			(48)
 #define		MAPDATA_H_MAX		(22)
 #define		MAPDATA_V_MAX		(22)
 #define		MAP_DRAW_POSITION_X	(420)
@@ -13,7 +14,8 @@ class Map : public Sprite
 {
 private:
 	int map_data[MAPDATA_V_MAX][MAPDATA_H_MAX];
-	const char* FileName;
+	const char* MapFileName;
+	const char* ObjFileName;
 	//char StageFile1[24] = "Data\\Map\\Stage1.csv\0";
 	//char StageFile2[24] = "Data\\Map\\Stage2.csv\0";
 	//char StageFile3[24] = "Data\\Map\\Stage3.csv\0";

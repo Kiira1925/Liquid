@@ -37,7 +37,7 @@ void Map::drawMap()
 	{
 		for (int Hor = 0; Hor < MAPDATA_H_MAX; Hor++)
 		{
-			DrawRectGraph(MAP_DRAW_POSITION_X + Hor*48, MAP_DRAW_POSITION_Y + Ver * 48, map_data[Ver][Hor] * 48, 0, 48, 48, handle, TRUE, FALSE);
+			DrawRectGraph(MAP_DRAW_POSITION_X + Hor*CHIP_SIZE, MAP_DRAW_POSITION_Y + Ver*CHIP_SIZE, map_data[Ver][Hor] * CHIP_SIZE, 0, CHIP_SIZE, CHIP_SIZE, handle, TRUE, FALSE);
 		}
 	}
 }
@@ -49,40 +49,50 @@ void Map::loadMapData(int stage_num)
 	switch (stage_num)
 	{
 	case 0:
-		FileName = "Data\\Map\\TestStage.csv";
+		MapFileName = "Data\\Map\\TestStage.csv";
+		ObjFileName = "Data\\Map\\TestObject.csv";
 		break;
 	case 1:
-		FileName = "Data\\Map\\Stage1.csv";
+		MapFileName = "Data\\Map\\Stage1.csv";
+		ObjFileName = "Data\\Map\\Object1.csv";
 		break;
 	case 2:
-		FileName = "Data\\Map\\Stage2.csv";
+		MapFileName = "Data\\Map\\Stage2.csv";
+		ObjFileName = "Data\\Map\\Object2.csv";
 		break;
 	case 3:
-		FileName = "Data\\Map\\Stage3.csv";
+		MapFileName = "Data\\Map\\Stage3.csv";
+		ObjFileName = "Data\\Map\\Object3.csv";
 		break;
 	case 4:
-		FileName = "Data\\Map\\Stage4.csv";
+		MapFileName = "Data\\Map\\Stage4.csv";
+		ObjFileName = "Data\\Map\\Object4.csv";
 		break;
 	case 5:
-		FileName = "Data\\Map\\Stage5.csv";
+		MapFileName = "Data\\Map\\Stage5.csv";
+		ObjFileName = "Data\\Map\\Object5.csv";
 		break;
 	case 6:
-		FileName = "Data\\Map\\Stage6.csv";
+		MapFileName = "Data\\Map\\Stage6.csv";
+		ObjFileName = "Data\\Map\\Object6.csv";
 		break;
 	case 7:
-		FileName = "Data\\Map\\Stage7.csv";
+		MapFileName = "Data\\Map\\Stage7.csv";
+		ObjFileName = "Data\\Map\\Object7.csv";
 		break;
 	case 8:
-		FileName = "Data\\Map\\Stage8.csv";
+		MapFileName = "Data\\Map\\Stage8.csv";
+		ObjFileName = "Data\\Map\\Object8.csv";
 		break;
 	case 9:
-		FileName = "Data\\Map\\Stage9.csv";
+		MapFileName = "Data\\Map\\Stage9.csv";
+		ObjFileName = "Data\\Map\\Object9.csv";
 		break;
 	default:
 		break;
 	}
 
-	fp = fopen(FileName, "r");
+	fp = fopen(MapFileName, "r");
 
 	if (fp == NULL)
 	{
