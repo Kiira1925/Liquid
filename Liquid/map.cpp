@@ -37,7 +37,7 @@ void Map::drawMap()
 	{
 		for (int Hor = 0; Hor < MAPDATA_H_MAX; Hor++)
 		{
-			DrawRectGraph(rel_posX + Hor * CHIP_SIZE, MAP_DRAW_POSITION_Y + Ver * CHIP_SIZE, map_data[Ver][Hor] * CHIP_SIZE, 0, CHIP_SIZE, CHIP_SIZE, handle, TRUE, FALSE);
+			DrawRectGraph(Map::getInstance()->rel_posX + Hor * CHIP_SIZE, MAP_DRAW_POSITION_Y + Ver * CHIP_SIZE, map_data[Ver][Hor] * CHIP_SIZE, 0, CHIP_SIZE, CHIP_SIZE, handle, TRUE, FALSE);
 		}
 	}
 }
