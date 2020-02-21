@@ -24,6 +24,7 @@ public:
 
     int timer;
     int drawState;
+    int aniState;
     int state;
     int posNumX;
     int posNumY;

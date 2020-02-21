@@ -19,11 +19,12 @@ void Player::init()
 	width = 48;      // 画像サイズ
 	height = 72;
 
-	// timer = 0;       // タイマー
+	//timer = 0;       // タイマー
 	state = 0;       // キー入力の種類(0:無し1:右2:左3:上4:下)
 	posNumX = 5;     // 初期座標(マップチップの位置)
 	posNumY = 5;
-	drawState = 0;   // アニメーションの状態
+	drawState = 0;   // アニメーションの状態(方向)
+	aniState = 0;    // モーション
 }
 
 void Player::update() 
@@ -35,37 +36,45 @@ void Player::update()
 	{   // 単押し
 		if (Input::GetInstance()->GetKeyDown(KEY_INPUT_RIGHT))
 		{
+			drawState = 0;
 			state = 1;
 		}// 長押し
 		else if (Input::GetInstance()->GetKey(KEY_INPUT_RIGHT)) 
 		{
+			drawState = 0;
 			state = 1;
 		}
 
 		if (Input::GetInstance()->GetKeyDown(KEY_INPUT_LEFT))
 		{
+			drawState = 1;
 			state = 2;
 		}
 		else if (Input::GetInstance()->GetKey(KEY_INPUT_LEFT))
 		{
+			drawState = 1;
 			state = 2;
 		}
 
 		if (Input::GetInstance()->GetKeyDown(KEY_INPUT_UP))
 		{
+			drawState = 2;
 			state = 3;
 		}
 		else if (Input::GetInstance()->GetKey(KEY_INPUT_UP))
 		{
+			drawState = 2;
 			state = 3;
 		}
 
 		if (Input::GetInstance()->GetKeyDown(KEY_INPUT_DOWN))
 		{
+			drawState = 3;
 			state = 4;
 		}
 		else if (Input::GetInstance()->GetKey(KEY_INPUT_DOWN))
 		{
+			drawState = 3;
 			state = 4;
 		}
 	}
@@ -76,11 +85,16 @@ void Player::update()
 		// Right
 		if (posNumX + 1 != 15) {
 			posX += 3;
+			if (posX % 12 == 0) 
+			{
+				aniState++;
+			}
 			if (posX == 48)
 			{
 				state = 0;
 				posX = 0;
 				posNumX++;
+				aniState = 0;
 			}
 		}
 		else {
@@ -92,11 +106,16 @@ void Player::update()
 		// Left
 		if (posNumX - 1 != 5) {
 			posX -= 3;
+			if (posX % 12 == 0)
+			{
+				aniState++;
+			}
 			if (posX == -48)
 			{
 				state = 0;
 				posX = 0;
 				posNumX--;
+				aniState = 0;
 			}
 		}
 		else {
@@ -108,11 +127,16 @@ void Player::update()
 		// Up
 		if (posNumY - 1 != 6) {
 			posY -= 3;
+			if (posY % 12 == 0)
+			{
+				aniState++;
+			}
 			if (posY == -48)
 			{
 				state = 0;
 				posY = 0;
 				posNumY--;
+				aniState = 0;
 			}
 		}
 		else {
@@ -124,11 +148,16 @@ void Player::update()
 		// Down
 		if (posNumY + 1 != 15) {
 			posY += 3;
+			if (posY % 12 == 0)
+			{
+				aniState++;
+			}
 			if (posY == 48)
 			{
 				state = 0;
 				posY = 0;
 				posNumY++;
+				aniState = 0;
 			}
 		}
 		else {
@@ -136,12 +165,13 @@ void Player::update()
 		}
 		break;
 	}
+	
 
 }
 
 void Player::draw() 
 {   //実際の描画位置+(チップサイズ×何番目のチップか)＋追加する座標[yは飛び出た分の24を足す],,画像サイズ×画像のState,,描画サイズ,,
-	DrawRectGraph(rel_posX + (CHIP_SIZE * posNumX)+posX , rel_posY + (CHIP_SIZE * posNumY)+posY -24, width * drawState, height * drawState, width, height, handle, true, false);
+	DrawRectGraph(rel_posX + (CHIP_SIZE * posNumX)+posX , rel_posY + (CHIP_SIZE * posNumY)+posY -24, width*aniState, height * drawState, width, height, handle, true, false);
 }
 
 void Player::end() 

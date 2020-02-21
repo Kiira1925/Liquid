@@ -32,8 +32,9 @@ void Choice_Conduct::updateDebug(Choice_Conduct* choice_conduct, Usable* usable)
     if (Input::GetInstance()->GetKeyDown(KEY_INPUT_1)) usable->changeSceneStateInit(Title);
     if (Input::GetInstance()->GetKeyDown(KEY_INPUT_2)) usable->changeSceneStateInit(Choice);
     if (Input::GetInstance()->GetKeyDown(KEY_INPUT_3)) usable->changeSceneStateInit(Game);
-
-    if (Input::GetInstance()->GetKey(KEY_INPUT_RETURN)) { usable->changeSceneStateInit(Game); }
+    if (Stage_Select::getInstance()->flg == 0) {
+        if (Input::GetInstance()->GetKey(KEY_INPUT_RETURN)) { usable->changeSceneStateInit(Game); }
+    }
 }
 
 void Stage_Select::init() 

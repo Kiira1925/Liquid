@@ -121,7 +121,7 @@ void Scene_Choice::end(void)
 void Scene_Game::init(void)
 {
     game_bg.init(&game_bg);
-    map.init(0);
+    map.init(Stage_Select::getInstance()->reNum());
     Player::getInstance()->init();
 }
 
