@@ -1,6 +1,7 @@
 #pragma once
 // インクルード ---------------------------------------------------------
 #include "common.h"
+#include "singleton.h"
 #include <stdio.h>
 
 // 定数 ----------------------------------------------------------------
@@ -10,7 +11,7 @@
 #define		MAP_DRAW_POSITION_X	(420)
 #define		MAP_DRAW_POSITION_Y	(0)
 
-class Map : public Sprite
+class Map : public Sprite, public Singleton<Map>
 {
 private:
 	int map_data[MAPDATA_V_MAX][MAPDATA_H_MAX];
