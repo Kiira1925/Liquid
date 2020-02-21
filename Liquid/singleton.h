@@ -5,9 +5,10 @@ class Singleton
 {
 protected:
 	Singleton() = default;
-	virtual ~Singleton() {}
+	~Singleton() = default;
 
 public:
+
 	static T* getInstance()
 	{
 		static T instance;

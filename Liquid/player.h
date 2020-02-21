@@ -3,6 +3,14 @@
 #include "main.h"
 #include "singleton.h"
 
+enum HitType 
+{
+    NONE,
+    ROAD,
+    WALL,
+    BLOCK,
+};
+
 class Player :public Sprite ,public Singleton<Player> 
 {
 private:

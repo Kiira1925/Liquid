@@ -36,44 +36,44 @@ void Choice_Conduct::updateDebug(Choice_Conduct* choice_conduct, Usable* usable)
     if (Input::GetInstance()->GetKey(KEY_INPUT_RETURN)) { usable->changeSceneStateInit(Game); }
 }
 
-void Stage_Select::init(Stage_Select* stage_select) 
+void Stage_Select::init() 
 {
-    stage_select->handle = LoadGraph("Data\\Images\\select1.png");
-    stage_select->numStage = 0;
-    stage_select->timer = 0;
-    stage_select->flg = 0;
-    stage_select->ease = 0.0f;
-    stage_select->easePosX = 0.0f;
+    handle = LoadGraph("Data\\Images\\select1.png");
+    numStage = 0;
+    timer = 0;
+    flg = 0;
+    ease = 0.0f;
+    easePosX = 0.0f;
 }
 
-void Stage_Select::update(Stage_Select* stage_select)
+void Stage_Select::update()
 {
  
 
-    if (stage_select->flg == 0) {
+    if (flg == 0) {
         switch (numStage)
         {
         case 0:
             // ‰E‚Éi‚Ş ----------------------------------------------------
             if (Input::GetInstance()->GetKeyDown(KEY_INPUT_RIGHT))
             {
-                stage_select->flg = 1;
+                flg = 1;
             }
             else {
                 if (Input::GetInstance()->GetKey(KEY_INPUT_RIGHT))
                 {
-                    stage_select->flg = 1;
+                    flg = 1;
                 }
             }
 
             // ¶‚Éi‚Ş --------------------------------------------------
             if (Input::GetInstance()->GetKeyDown(KEY_INPUT_LEFT))
             {
-                stage_select->flg = 2;
+                flg = 2;
             }
             else {
                 if (Input::GetInstance()->GetKey(KEY_INPUT_LEFT)) {
-                    stage_select->flg = 2;
+                    flg = 2;
                 }
             }
 
@@ -81,21 +81,21 @@ void Stage_Select::update(Stage_Select* stage_select)
         case 1:
             if (Input::GetInstance()->GetKeyDown(KEY_INPUT_RIGHT))
             {
-                stage_select->flg = 1;
+                flg = 1;
             }
             else {
                 if (Input::GetInstance()->GetKey(KEY_INPUT_RIGHT)) {
-                    stage_select->flg = 1;
+                    flg = 1;
                 }
             }
 
             if (Input::GetInstance()->GetKeyDown(KEY_INPUT_LEFT))
             {
-                stage_select->flg = 2;
+                flg = 2;
             }
             else {
                 if (Input::GetInstance()->GetKey(KEY_INPUT_LEFT)) {
-                    stage_select->flg = 2;
+                    flg = 2;
                 }
             }
 
@@ -103,22 +103,22 @@ void Stage_Select::update(Stage_Select* stage_select)
         case 2:
             if (Input::GetInstance()->GetKeyDown(KEY_INPUT_RIGHT))
             {
-                stage_select->flg = 1;
+                flg = 1;
             }
             else {
                 if (Input::GetInstance()->GetKey(KEY_INPUT_RIGHT)) {
-                    stage_select->flg = 1;
+                    flg = 1;
                 }
             }
 
 
             if (Input::GetInstance()->GetKeyDown(KEY_INPUT_LEFT))
             {
-                stage_select->flg = 2;
+                flg = 2;
             }
             else {
                 if (Input::GetInstance()->GetKey(KEY_INPUT_LEFT)) {
-                    stage_select->flg = 2;
+                    flg = 2;
                 }
             }
 
@@ -126,22 +126,22 @@ void Stage_Select::update(Stage_Select* stage_select)
         case 3:
             if (Input::GetInstance()->GetKeyDown(KEY_INPUT_RIGHT))
             {
-                stage_select->flg = 1;
+                flg = 1;
             }
             else {
                 if (Input::GetInstance()->GetKey(KEY_INPUT_RIGHT)) {
-                    stage_select->flg = 1;
+                    flg = 1;
                 }
             }
 
             if (Input::GetInstance()->GetKeyDown(KEY_INPUT_LEFT))
             {
-                stage_select->flg = 2;
+                flg = 2;
 
             }
             else {
                 if (Input::GetInstance()->GetKey(KEY_INPUT_LEFT)) {
-                    stage_select->flg = 2;
+                    flg = 2;
                 }
             }
 
@@ -149,21 +149,21 @@ void Stage_Select::update(Stage_Select* stage_select)
         case 4:
             if (Input::GetInstance()->GetKeyDown(KEY_INPUT_RIGHT))
             {
-                stage_select->flg = 1;
+                flg = 1;
             }
             else {
                 if (Input::GetInstance()->GetKey(KEY_INPUT_RIGHT)) {
-                    stage_select->flg = 1;
+                    flg = 1;
                 }
             }
 
             if (Input::GetInstance()->GetKeyDown(KEY_INPUT_LEFT))
             {
-                stage_select->flg = 2;
+                flg = 2;
             }
             else {
                 if (Input::GetInstance()->GetKey(KEY_INPUT_LEFT)) {
-                    stage_select->flg = 2;
+                    flg = 2;
                 }
             }
 
@@ -171,21 +171,21 @@ void Stage_Select::update(Stage_Select* stage_select)
         case 5:
             if (Input::GetInstance()->GetKeyDown(KEY_INPUT_RIGHT))
             {
-                stage_select->flg = 1;
+                flg = 1;
             }
             else {
                 if (Input::GetInstance()->GetKey(KEY_INPUT_RIGHT)) {
-                    stage_select->flg = 1;
+                    flg = 1;
                 }
             }
 
             if (Input::GetInstance()->GetKeyDown(KEY_INPUT_LEFT))
             {
-                stage_select->flg = 2;
+                flg = 2;
             }
             else {
                 if (Input::GetInstance()->GetKey(KEY_INPUT_LEFT)) {
-                    stage_select->flg = 2;
+                    flg = 2;
                 }
             }
 
@@ -193,21 +193,21 @@ void Stage_Select::update(Stage_Select* stage_select)
         case 6:
             if (Input::GetInstance()->GetKeyDown(KEY_INPUT_RIGHT))
             {
-                stage_select->flg = 1;
+                flg = 1;
             }
             else {
                 if (Input::GetInstance()->GetKey(KEY_INPUT_RIGHT)) {
-                    stage_select->flg = 1;
+                    flg = 1;
                 }
             }
 
             if (Input::GetInstance()->GetKeyDown(KEY_INPUT_LEFT))
             {
-                stage_select->flg = 2;
+                flg = 2;
             }
             else {
                 if (Input::GetInstance()->GetKey(KEY_INPUT_LEFT)) {
-                    stage_select->flg = 2;
+                    flg = 2;
                 }
             }
 
@@ -215,20 +215,20 @@ void Stage_Select::update(Stage_Select* stage_select)
         case 7:
             if (Input::GetInstance()->GetKeyDown(KEY_INPUT_RIGHT))
             {
-                stage_select->flg = 1;
+                flg = 1;
             }
             else {
                 if (Input::GetInstance()->GetKey(KEY_INPUT_RIGHT)) {
-                    stage_select->flg = 1;
+                    flg = 1;
                 }
             }
             if (Input::GetInstance()->GetKeyDown(KEY_INPUT_LEFT))
             {
-                stage_select->flg = 2;
+                flg = 2;
             }
             else {
                 if (Input::GetInstance()->GetKey(KEY_INPUT_LEFT)) {
-                    stage_select->flg = 2;
+                    flg = 2;
                 }
             }
 
@@ -236,84 +236,84 @@ void Stage_Select::update(Stage_Select* stage_select)
         case 8:
             if (Input::GetInstance()->GetKeyDown(KEY_INPUT_RIGHT))
             {
-                stage_select->flg = 1;
+                flg = 1;
             }
             else {
                 if (Input::GetInstance()->GetKey(KEY_INPUT_RIGHT)) {
-                    stage_select->flg = 1;
+                    flg = 1;
                 }
             }
 
             if (Input::GetInstance()->GetKeyDown(KEY_INPUT_LEFT))
             {
-                stage_select->flg = 2;
+                flg = 2;
             }
             else {
                 if (Input::GetInstance()->GetKey(KEY_INPUT_LEFT)) {
-                    stage_select->flg = 2;
+                    flg = 2;
                 }
             }
 
             break;
         }
     }
-    if (stage_select->flg == 1) 
+    if (flg == 1) 
     {
         
-        stage_select->ease = Back::easeOut(stage_select->timer, 0, 1,25);
-        stage_select->timer++;
-        stage_select->easePosX = (1920*stage_select->ease);
+        ease = Back::easeOut(timer, 0, 1,25);
+        timer++;
+        easePosX = (1920*ease);
 
-        if (stage_select->timer ==25) 
+        if (timer ==25) 
         {
-            stage_select->easePosX = 0;
-            stage_select->flg = 0;
-            stage_select->numStage++;
-            stage_select->timer = 0;
-            stage_select->ease = 0;
-            if (stage_select->numStage == 9)
+            easePosX = 0;
+            flg = 0;
+            numStage++;
+            timer = 0;
+            ease = 0;
+            if (numStage == 9)
             {
-                stage_select->numStage = 0;
+                numStage = 0;
             }
         }
     }
-    else if (stage_select->flg == 2) 
+    else if (flg == 2) 
     {
-        stage_select->ease = Back::easeOut(stage_select->timer, 0, -1, 25);
-        stage_select->timer++;
-        stage_select->easePosX = (1920 * stage_select->ease);
-        if (stage_select->easePosX == -1920)
+        ease = Back::easeOut(timer, 0, -1, 25);
+        timer++;
+        easePosX = (1920 * ease);
+        if (easePosX == -1920)
         {
-            stage_select->easePosX = 0;
-            stage_select->flg = 0;
-            stage_select->numStage--;
-            stage_select->timer = 0;
-            stage_select->ease = 0;
-            if (stage_select->numStage == -1)
+            easePosX = 0;
+            flg = 0;
+            numStage--;
+            timer = 0;
+            ease = 0;
+            if (numStage == -1)
             {
-                stage_select->numStage = 8;
+                numStage = 8;
             }
         }
     }
-  
 }
 
-void Stage_Select::draw(Stage_Select* stage_select)
+void Stage_Select::draw()
 {
     //DrawRectGraph(stage_select->posX - stage_select->sizeX, 0, stage_select->sizeX * ((stage_select->numStage - 1) % 3), stage_select->sizeY * ((stage_select->numStage - 1) / 3), stage_select->sizeX, stage_select->sizeY, stage_select->handle, true, false);
     //DrawRectGraph(posX, 0, stage_select->sizeX * (stage_select->numStage % 3), stage_select->sizeY * (stage_select->numStage / 3), stage_select->sizeX, stage_select->sizeY, stage_select->handle, true, false);
     //DrawRectGraph(stage_select->posX + stage_select->sizeX, 0, stage_select->sizeX * ((stage_select->numStage + 1) % 3), stage_select->sizeY * ((stage_select->numStage + 1) / 3), stage_select->sizeX, stage_select->sizeY, stage_select->handle, true, false);
-     DrawRectGraph(0, 0, (stage_select->sizeX)*(stage_select->numStage+1) + stage_select->easePosX, stage_select->sizeY*0, stage_select->sizeX, stage_select->sizeY, stage_select->handle, true, false);
-     DrawFormatString(0, 80, GetColor(0, 0, 0), "%f", stage_select->ease);
-     DrawFormatString(0, 100, GetColor(0, 0, 0), "%d", stage_select->numStage);
+     DrawRectGraph(0, 0, (sizeX)*(numStage+1) + easePosX, sizeY*0, sizeX, sizeY, handle, true, false);
+     DrawFormatString(0, 80, GetColor(0, 0, 0), "%f", ease);
+     DrawFormatString(0, 100, GetColor(0, 0, 0), "%d", numStage);
 }
 
-void Stage_Select::end(Stage_Select* stage_select)
+void Stage_Select::end()
 {
     
 }
 
-int Stage_Select::reNum(Stage_Select* stage_select) 
+int Stage_Select::reNum() 
 {
-    return  stage_select->numStage+ 1;
+    int num = numStage + 1;
+    return  num;
 }

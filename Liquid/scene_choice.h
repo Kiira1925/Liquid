@@ -2,6 +2,7 @@
 // インクルード ---------------------------------------------------------
 #include "common.h"
 #include "main.h"
+#include "singleton.h"
 
 // 定数 ----------------------------------------------------------------
 
@@ -26,14 +27,14 @@ public:
 };
 
 // ステージセレクト管理 --------------------------------------------------------
-class Stage_Select :public Sprite
+class Stage_Select :public Sprite,public Singleton<Stage_Select>
 {
 public:
-    void init(Stage_Select* stage_slect);
-    void update(Stage_Select* stage_select);
-    void draw(Stage_Select* stage_select);
-    void end(Stage_Select* stage_select);
-    int reNum(Stage_Select* stage_select);
+    void init();
+    void update();
+    void draw();
+    void end();
+    int reNum();
 
     int numStage;
     int timer;

@@ -13,21 +13,24 @@ void Player::init()
 	posX = 0;  // 移動の増加量
 	posY = 0;
 
-	rel_posX = 420;  // 
+	rel_posX = 420;  // 描画追加量
 	rel_posY = 0;
 
-	width = 48;
+	width = 48;      // 画像サイズ
 	height = 72;
 
-	timer = 0;
-	state = 0;
-	posNumX = 5;
+	// timer = 0;       // タイマー
+	state = 0;       // キー入力の種類(0:無し1:右2:左3:上4:下)
+	posNumX = 5;     // 初期座標(マップチップの位置)
 	posNumY = 5;
-	drawState = 0;
+	drawState = 0;   // アニメーションの状態
 }
 
 void Player::update() 
 {
+
+	//Map* map = Map::getInstance();
+	//int mapchip = map->map_data[5][6];
 	if (state == 0) 
 	{   // 単押し
 		if (Input::GetInstance()->GetKeyDown(KEY_INPUT_RIGHT))
@@ -71,49 +74,65 @@ void Player::update()
 	{
 	case 1:
 		// Right
-		posX += 3;
-		timer++;
-		if (posX == 48) 
-		{
+		if (posNumX + 1 != 15) {
+			posX += 3;
+			if (posX == 48)
+			{
+				state = 0;
+				posX = 0;
+				posNumX++;
+			}
+		}
+		else {
 			state = 0;
-			posX = 0;
-			posNumX++;
 		}
 		break;
 
 	case 2:
 		// Left
-		posX -= 3;
-		timer++;
-		if (posX == -48)
-		{
+		if (posNumX - 1 != 5) {
+			posX -= 3;
+			if (posX == -48)
+			{
+				state = 0;
+				posX = 0;
+				posNumX--;
+			}
+		}
+		else {
 			state = 0;
-			posX = 0;
-			posNumX--;
 		}
 		break;
 
 	case 3:
 		// Up
-		posY -= 3;
-		timer++;
-		if (posY == -48)
-		{
+		if (posNumY - 1 != 6) {
+			posY -= 3;
+			if (posY == -48)
+			{
+				state = 0;
+				posY = 0;
+				posNumY--;
+			}
+		}
+		else {
 			state = 0;
-			posY = 0;
-			posNumY--;
 		}
 		break;
 
 	case 4:
 		// Down
-		posY += 3;
-		timer++;
-		if (posY == 48)
-		{
+		if (posNumY + 1 != 15) {
+			posY += 3;
+			if (posY == 48)
+			{
+				state = 0;
+				posY = 0;
+				posNumY++;
+			}
+		}
+		else {
 			state = 0;
-			posY = 0;
-			posNumY++;
 		}
 		break;
 	}
