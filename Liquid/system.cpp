@@ -16,5 +16,8 @@ void System::drawDebugString()
     DrawFormatString(0, 0, cr, "Title:1");
     DrawFormatString(0, 20, cr, "Choice:2");
     DrawFormatString(0, 40, cr, "Game:3");
-    //DrawFormatString(0, 140, cr, "%f", Player::getInstance()->);
+    DrawFormatString(0, 140, cr, "%d", Player::getInstance()->posNumX);
+    DrawFormatString(0, 160, cr, "%d", Player::getInstance()->getPosX());
+    DrawFormatString(0, 200, cr, "%d", Player::getInstance()->posNumY);
+    DrawFormatString(0, 220, cr, "%d", Player::getInstance()->getPosY());
 }

@@ -52,7 +52,6 @@ void Scene_Title::update(int GameTime)
 {
     title_bg.update(&title_bg);
     title_conduct.updateDebug(&title_conduct, &usable);     // debug
-    Player::getInstance()->update();
 }
 
 // タイトル描画処理
@@ -60,6 +59,7 @@ void Scene_Title::draw(int GameTime)
 {
     title_bg.draw(&title_bg);
     sys.drawDebugString();      // debug
+
 }
 
 // タイトル終了処理
@@ -124,6 +124,7 @@ void Scene_Game::init(void)
 {
     game_bg.init(&game_bg);
     map.init(0);
+    Player::getInstance()->init();
 }
 
 // ゲーム更新処理
@@ -131,6 +132,7 @@ void Scene_Game::update(int GameTime)
 {
     relative.cal_relative_pos(map);
     game_bg.update(&game_bg);
+    Player::getInstance()->update();
     game_conduct.updateDebug(&game_conduct, &usable);   // debug
 }
 
@@ -139,7 +141,9 @@ void Scene_Game::draw(int GameTime)
 {
     game_bg.draw(&game_bg);
     map.draw();
+    Player::getInstance()->draw();
     sys.drawDebugString();      // debug
+
 }
 
 // ゲーム終了処理
