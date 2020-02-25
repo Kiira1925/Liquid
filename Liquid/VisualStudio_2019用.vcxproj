@@ -158,6 +158,7 @@
   <ItemGroup>
     <ClCompile Include="easing.cpp" />
     <ClCompile Include="input.cpp" />
+    <ClCompile Include="liquid.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="map.cpp" />
     <ClCompile Include="relative.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="DxLibFile\DxLib.h" />
     <ClInclude Include="easing.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="liquid.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="relative.h" />
