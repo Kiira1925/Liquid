@@ -132,6 +132,7 @@ void Scene_Game::update(int GameTime)
 {
     relative.cal_relative_pos();
     game_bg.update(&game_bg);
+    map.update();
     Player::getInstance()->update();
     game_conduct.updateDebug(&game_conduct, &usable);   // debug
 }

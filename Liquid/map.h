@@ -11,18 +11,20 @@
 #define		MAP_DRAW_POSITION_X	(420)
 #define		MAP_DRAW_POSITION_Y	(0)
 
+enum ObjectNum {None,PlayerSpawnPoint,};
 class Map : public Sprite, public Singleton<Map>
 {
 private:
-	int map_data[MAPDATA_V_MAX][MAPDATA_H_MAX];
+public:
 	const char* MapFileName;
 	const char* ObjFileName;
-public:
+	//1~20:地形チップ 20~:オブジェクトチップ
+	int map_data[MAPDATA_V_MAX][MAPDATA_H_MAX];
+
 	void init(int stage_num);
 	void update();
 	void draw();
 	void end();
-
 
 	void drawMap();
 	void loadChipData();
