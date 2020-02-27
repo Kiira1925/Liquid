@@ -11,6 +11,7 @@
 #define		MAP_DRAW_POSITION_X	(420)
 #define		MAP_DRAW_POSITION_Y	(0)
 
+enum MapNum { Void, Road, Wall, Breakable, Spring, Goal };
 enum ObjectNum {None,PlayerSpawnPoint,};
 class Map : public Sprite, public Singleton<Map>
 {

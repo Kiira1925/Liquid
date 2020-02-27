@@ -10,6 +10,7 @@
 #include "map.h"
 #include "relative.h"
 #include "player.h"
+#include "liquid.h"
 
 //////////////////////////////////////////////////////////////////////////
 //	各ゲームで使用するクラスインスタンスやグローバル変数はここに記述
@@ -30,6 +31,8 @@ Map             map;
 Relative        relative;
 
 Scene_State     state;
+
+int poison_hanlde;
 
 //
 // 定義ここまで
@@ -122,7 +125,11 @@ void Scene_Game::init(void)
 {
     game_bg.init(&game_bg);
     map.init(Stage_Select::getInstance()->reNum());
+    //map.init(0);
+    initField();
     Player::getInstance()->init();
+    poison_hanlde = LoadGraph("Data\\Images\\poisonasset.png");
+    initLiquid();
 }
 
 // ゲーム更新処理
@@ -133,6 +140,7 @@ void Scene_Game::update(int GameTime)
     map.update();
     Player::getInstance()->update();
     game_conduct.updateDebug(&game_conduct, &usable);   // debug
+    BFS();
 }
 
 // ゲーム描画処理
@@ -140,9 +148,10 @@ void Scene_Game::draw(int GameTime)
 {
     game_bg.draw(&game_bg);
     map.draw();
+    drawPoison(poison_hanlde);
+    spreadWave(poison_hanlde);
     Player::getInstance()->draw();
     sys.drawDebugString();      // debug
-
 }
 
 // ゲーム終了処理
