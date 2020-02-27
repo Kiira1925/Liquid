@@ -7,7 +7,6 @@
 #include "player.h"
 #include "singleton.h"
 #include "scene_choice.h"
-#include "block.h"
 
 // 関数 ----------------------------------------------------------------------------------------
 // デバック文字を描画

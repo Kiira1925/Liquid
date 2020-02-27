@@ -156,7 +156,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="block.cpp" />
     <ClCompile Include="easing.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="liquid.cpp" />
@@ -170,7 +169,6 @@
     <ClCompile Include="system.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="block.h" />
     <ClInclude Include="common.h" />
     <ClInclude Include="DxLibFile\DxLib.h" />
     <ClInclude Include="easing.h" />

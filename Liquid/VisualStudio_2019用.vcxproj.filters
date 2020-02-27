@@ -34,9 +34,6 @@
     <ClCompile Include="liquid.cpp">
       <Filter>ソースファイル</Filter>
     </ClCompile>
-    <ClCompile Include="block.cpp">
-      <Filter>ソースファイル</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h">
@@ -79,9 +76,6 @@
       <Filter>ヘッダーファイル</Filter>
     </ClInclude>
     <ClInclude Include="liquid.h">
-      <Filter>ヘッダーファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="block.h">
       <Filter>ヘッダーファイル</Filter>
     </ClInclude>
   </ItemGroup>
