@@ -3,6 +3,9 @@
 #include "main.h"
 #include "singleton.h"
 
+#define FastPx 8
+#define FastPy 7
+
 enum HitType 
 {
     NONE,
@@ -28,6 +31,9 @@ public:
     int state;
     int posNumX;
     int posNumY;
+
+    int blockState;
+    bool flg;
     //int posX = 0;  　　　システム内部座標
     //int posY = 0;
     //int rel_posX = 0;　　描画座標

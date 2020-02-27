@@ -10,6 +10,7 @@
 #include "map.h"
 #include "relative.h"
 #include "player.h"
+#include "block.h"
 
 //////////////////////////////////////////////////////////////////////////
 //	各ゲームで使用するクラスインスタンスやグローバル変数はここに記述
@@ -30,6 +31,7 @@ Map             map;
 Relative        relative;
 
 Scene_State     state;
+
 
 //
 // 定義ここまで
@@ -123,6 +125,7 @@ void Scene_Game::init(void)
     game_bg.init(&game_bg);
     map.init(Stage_Select::getInstance()->reNum());
     Player::getInstance()->init();
+
 }
 
 // ゲーム更新処理
@@ -132,6 +135,7 @@ void Scene_Game::update(int GameTime)
     game_bg.update(&game_bg);
     map.update();
     Player::getInstance()->update();
+
     game_conduct.updateDebug(&game_conduct, &usable);   // debug
 }
 
@@ -141,6 +145,7 @@ void Scene_Game::draw(int GameTime)
     game_bg.draw(&game_bg);
     map.draw();
     Player::getInstance()->draw();
+
     sys.drawDebugString();      // debug
 
 }

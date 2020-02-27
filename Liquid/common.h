@@ -21,6 +21,8 @@ public:
     int getPosY() { return posY; }
     void setRelPosX(int x) { rel_posX = x; }
     void setRelPosY(int y) { rel_posY = y; }
+    void setPosX(int x) { posX = x; }
+    void setPosY(int y) { posY = y; }
 
 protected:
     int posX = 0;

@@ -7,6 +7,7 @@
 #include "player.h"
 #include "singleton.h"
 #include "scene_choice.h"
+#include "block.h"
 
 // 関数 ----------------------------------------------------------------------------------------
 // デバック文字を描画
@@ -22,4 +23,6 @@ void System::drawDebugString()
     DrawFormatString(0, 200, cr, "%d", Player::getInstance()->posNumY);
     DrawFormatString(0, 220, cr, "%d", Player::getInstance()->getPosY());
     DrawFormatString(0, 260, cr, "%d", Stage_Select::getInstance()->reNum());
+
+
 }
