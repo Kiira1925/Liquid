@@ -7,7 +7,7 @@
 
 #include "DxLib.h"
 
-
+extern Block blocks;
 
 void Player::init() 
 {
@@ -29,7 +29,7 @@ void Player::init()
 	drawState = 0;   // アニメーションの状態(方向)
 	aniState = 0;    // モーション
 
-	blockState = -1;
+	blockState = 0;
 	flg = true;
 
 }
@@ -69,13 +69,30 @@ void Player::update()
 
 	}
 
+	if ((posNumY == blocks.posNumY) && (posNumX + 1 == blocks.posNumX))
+	{
+		blockState = 1;
+	}
+	else if (posNumY == blocks.posNumY && posNumX - 1 == blocks.posNumX)
+	{
+		blockState = 2;
+	}
+	else if (posNumY - 1 == blocks.posNumY && posNumX == blocks.posNumX)
+	{
+		blockState = 3;
+	}
+	else if (posNumY + 1 == blocks.posNumY && posNumX == blocks.posNumX)
+	{
+		blockState = 4;
+	}
+	else { blockState = 0; }
 
 
 	switch (state)
 	{
 	case 1:
 		// Right
-		if (Map::getInstance()->map_data[posNumY][posNumX + 1] == 1) {
+		if (Map::getInstance()->map_data[posNumY][posNumX + 1] == ROAD && blockState != 1) {
 			posX += 3;
 			if (posX % 12 == 0)
 			{
@@ -96,7 +113,7 @@ void Player::update()
 
 	case 2:
 		// Left
-		if (Map::getInstance()->map_data[posNumY][posNumX - 1] == 1) {
+		if (Map::getInstance()->map_data[posNumY][posNumX - 1] == ROAD && blockState != 2) {
 			posX -= 3;
 			if (posX % 12 == 0)
 			{
@@ -117,7 +134,7 @@ void Player::update()
 
 	case 3:
 		// Up
-		if (Map::getInstance()->map_data[posNumY - 1][posNumX] == 1) {
+		if (Map::getInstance()->map_data[posNumY - 1][posNumX] == ROAD && blockState != 3) {
 			posY -= 3;
 			if (posY % 12 == 0)
 			{
@@ -138,7 +155,7 @@ void Player::update()
 
 	case 4:
 		// Down
-		if (Map::getInstance()->map_data[posNumY + 1][posNumX] == 1) {
+		if (Map::getInstance()->map_data[posNumY + 1][posNumX] == ROAD && blockState != 4) {
 			posY += 3;
 			if (posY % 12 == 0)
 			{
@@ -167,6 +184,200 @@ void Player::draw()
 }
 
 void Player::end() 
+{
+
+}
+
+
+void Block::init(Block* block) 
+{
+	block->handle = LoadGraph("Data\\Images\\block.png");
+
+	block->posX = 0;  // 移動の増加量
+	block->posY = 0;
+
+	block->rel_posX = 420;  // 描画追加量
+	block->rel_posY = 0;
+
+	block->width = 48;      // 画像サイズ
+	block->height = 72;
+
+	block->timer = 0;       // タイマー
+	block->state = 0;       // キー入力の種類(0:無し1:右2:左3:上4:下)
+	block->posNumX = FastPx + 1;     // 初期座標(マップチップの位置)
+	block->posNumY = FastPy;
+	block->drawState = 0;   // アニメーションの状態(方向)
+	block->aniState = 0;    // モーション
+
+	block->blockState = 0;
+	block->flg = true;
+
+}
+
+void Block::update(Block* block) 
+{
+	if ((Player::getInstance()->posNumY == block->posNumY) && (Player::getInstance()->posNumX + 1 == block->posNumX))
+	{
+		block->blockState = 2;
+	}
+	else if (Player::getInstance()->posNumY == block->posNumY && Player::getInstance()->posNumX - 1 == block->posNumX)
+	{
+		block->blockState = 1;
+	}
+	else if (Player::getInstance()->posNumY - 1 == block->posNumY && Player::getInstance()->posNumX == block->posNumX)
+	{
+		block->blockState = 4;
+	}
+	else if (Player::getInstance()->posNumY + 1 == block->posNumY && Player::getInstance()->posNumX == block->posNumX)
+	{
+		block->blockState = 3;
+	}
+	else { block->blockState = 0; }
+
+
+	if (block->state == 0)
+	{
+
+		//if (Input::GetInstance()->GetKey(KEY_INPUT_D))
+		//{
+		//	//block->drawState = 1;
+		//	block->state = 1;
+		//}
+		//else if (Input::GetInstance()->GetKey(KEY_INPUT_A))
+		//{
+		//	//block->drawState = 2;
+		//	block->state = 2;
+		//}
+		//else if (Input::GetInstance()->GetKey(KEY_INPUT_W))
+		//{
+		//	//block->drawState = 3;
+		//	block->state = 3;
+		//}
+		//else if (Input::GetInstance()->GetKey(KEY_INPUT_S))
+		//{
+		//	//block->drawState = 4;
+		//	block->state = 4;
+		//}
+		if (Input::GetInstance()->GetKey(KEY_INPUT_RIGHT) && block->blockState != 0 && Input::GetInstance()->GetKey(KEY_INPUT_Z))
+		{
+			//block->drawState = 1;
+			block->state = 1;
+		}
+		else if (Input::GetInstance()->GetKey(KEY_INPUT_LEFT) && block->blockState != 0 && Input::GetInstance()->GetKey(KEY_INPUT_Z))
+		{
+			//block->drawState = 2;
+			block->state = 2;
+		}
+		else if (Input::GetInstance()->GetKey(KEY_INPUT_UP) && block->blockState != 0 && Input::GetInstance()->GetKey(KEY_INPUT_Z))
+		{
+			//block->drawState = 3;
+			block->state = 3;
+		}
+		else if (Input::GetInstance()->GetKey(KEY_INPUT_DOWN) && block->blockState != 0 && Input::GetInstance()->GetKey(KEY_INPUT_Z))
+		{
+			//block->drawState = 4;
+			block->state = 4;
+		}
+
+	}
+
+
+	switch (block->state)
+	{
+	case 1:
+		// Right
+		if (Map::getInstance()->map_data[block->posNumY][block->posNumX + 1] == ROAD&&block->blockState!=1) {
+			block->posX += 3;
+			if (block->posX % 12 == 0)
+			{
+				//block->aniState++;
+			}
+			if (block->posX == 48)
+			{
+				block->state = 0;
+				block->posX = 0;
+				block->posNumX++;
+				block->aniState = 0;
+			}
+		}
+		else {
+			block->state = 0;
+		}
+		break;
+
+	case 2:
+		// Left
+		if (Map::getInstance()->map_data[block->posNumY][block->posNumX - 1] == ROAD && block->blockState != 2) {
+			block->posX -= 3;
+			if (block->posX % 12 == 0)
+			{
+				//block->aniState++;
+			}
+			if (block->posX == -48)
+			{
+				block->state = 0;
+				block->posX = 0;
+				block->posNumX--;
+				block->aniState = 0;
+			}
+		}
+		else {
+			block->state = 0;
+		}
+		break;
+
+	case 3:
+		// Up
+		if (Map::getInstance()->map_data[block->posNumY - 1][block->posNumX] == ROAD && block->blockState != 3) {
+			block->posY -= 3;
+			if (block->posY % 12 == 0)
+			{
+				//block->aniState++;
+			}
+			if (block->posY == -48)
+			{
+				block->state = 0;
+				block->posY = 0;
+				block->posNumY--;
+				block->aniState = 0;
+			}
+		}
+		else {
+			block->state = 0;
+		}
+		break;
+
+	case 4:
+		// Down
+		if (Map::getInstance()->map_data[block->posNumY + 1][block->posNumX] == ROAD && block->blockState != 4) {
+			block->posY += 3;
+			if (block->posY % 12 == 0)
+			{
+				//block->aniState++;
+			}
+			if (block->posY == 48)
+			{
+				block->state = 0;
+				block->posY = 0;
+				block->posNumY++;
+				block->aniState = 0;
+			}
+		}
+		else {
+			block->state = 0;
+		}
+		break;
+	}
+
+}
+void Block::draw(Block* block) 
+{
+	//実際の描画位置+(チップサイズ×何番目のチップか)＋追加する座標[yは飛び出た分の24を足す],,画像サイズ×画像のState,,描画サイズ,,
+	DrawRectGraph(block->rel_posX + (CHIP_SIZE * block->posNumX) + block->posX, block->rel_posY + (CHIP_SIZE * block->posNumY) + block->posY - 24, block->width * block->aniState, block->height * block->drawState, block->width, block->height, block->handle, true, false);
+
+}
+
+void Block::end(Block* block) 
 {
 
 }
