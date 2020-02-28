@@ -14,6 +14,7 @@ int Liquid[22][22];
 int Visit[22][22];
 //各ブロックの訪問順を保存する配列
 int Count[22][22];
+int temp_count[22][22];
 
 //ゴール地点を保存する変数
 Pair goalPos;
@@ -24,7 +25,14 @@ int stream_count;
 int stream_max;
 int stream_timer;
 //水源の上限値
-int liquid_max = 8;
+int liquid_max;
+int liquid_count;
+//波の実体フラグ
+bool exist_wave;
+//毒沼用アニメーションタイマー
+int poison_aniTimer;
+//泡の座標
+Pair bubble_pos[3];
 
 
 void initLiquid()
@@ -57,6 +65,8 @@ void initLiquid()
 			//}
 		}
 	}
+	liquid_max = 8;
+	poison_aniTimer = 0;
 }
 
 void initField()
@@ -128,7 +138,7 @@ void searchRoute()
 
 void spreadWave(int handle)
 {
-	bool exist_wave = false;
+	exist_wave = false;
 	if (stream_max == 0) { stream_max = Count[goalPos.first][goalPos.second]; }
 	if(stream_count < stream_max)
 	{
@@ -145,9 +155,18 @@ void spreadWave(int handle)
 	if (stream_count == stream_max)
 	{
 		Liquid[route[stream_count].first][route[stream_count].second] = 1;
+		liquid_max--;
 		initField();
 	}
 	
+	//if (exist_wave == true)
+	//{
+	//	DrawRectGraph(route[stream_count].second * CHIP_SIZE + 420, route[stream_count].first * CHIP_SIZE, CHIP_SIZE * 0, CHIP_SIZE * 15, CHIP_SIZE, CHIP_SIZE, handle, TRUE);
+	//}
+}
+
+void drawWave(int handle)
+{
 	if (exist_wave == true)
 	{
 		DrawRectGraph(route[stream_count].second * CHIP_SIZE + 420, route[stream_count].first * CHIP_SIZE, CHIP_SIZE * 0, CHIP_SIZE * 15, CHIP_SIZE, CHIP_SIZE, handle, TRUE);
@@ -156,13 +175,112 @@ void spreadWave(int handle)
 
 void drawPoison(int handle)
 {
+	poison_aniTimer++;
+	int anime_frame = poison_aniTimer%48/8;
+	int bubble_timer = poison_aniTimer % 48;
+	bool exist_poison = false;
 	for (int Ver = 0; Ver < MAPDATA_V_MAX; Ver++)
 	{
 		for (int Hor = 0; Hor < MAPDATA_H_MAX; Hor++)
 		{
 			if (Liquid[Ver][Hor] == 1)
 			{
-				DrawRectGraph(Hor * CHIP_SIZE + 420, Ver * CHIP_SIZE, CHIP_SIZE * 0, CHIP_SIZE * 1, CHIP_SIZE, CHIP_SIZE, handle, TRUE);
+				bool up = (Liquid[Ver - 1][Hor] == 1 || Liquid[Ver - 1][Hor] == -1 || Liquid[Ver - 1][Hor] == 10);
+				bool down  = (Liquid[Ver + 1][Hor] == 1 || Liquid[Ver + 1][Hor] == -1 || Liquid[Ver + 1][Hor] == 10);
+				bool left = (Liquid[Ver][Hor - 1] == 1 || Liquid[Ver][Hor - 1] == -1 || Liquid[Ver][Hor - 1] == 10);
+				bool right = (Liquid[Ver][Hor + 1] == 1 || Liquid[Ver][Hor + 1] == -1 || Liquid[Ver][Hor + 1] == 10);
+
+
+				if ((up && down && left && right) || (up && down && !left && !right) || (!up && !down && left && right))
+				{
+					DrawRectGraph(Hor * CHIP_SIZE + 420, Ver * CHIP_SIZE, CHIP_SIZE * anime_frame, CHIP_SIZE * 1, CHIP_SIZE, CHIP_SIZE, handle, TRUE);
+				}
+				if (!up && down && !left && right)
+				{
+					DrawRectGraph(Hor * CHIP_SIZE + 420, Ver * CHIP_SIZE, CHIP_SIZE * anime_frame, CHIP_SIZE * 2, CHIP_SIZE, CHIP_SIZE, handle, TRUE);
+				}
+				if (!up && down && left && right)
+				{
+					DrawRectGraph(Hor * CHIP_SIZE + 420, Ver * CHIP_SIZE, CHIP_SIZE * anime_frame, CHIP_SIZE * 3, CHIP_SIZE, CHIP_SIZE, handle, TRUE);
+				}
+				if (!up && down && left && !right)
+				{
+					DrawRectGraph(Hor * CHIP_SIZE + 420, Ver * CHIP_SIZE, CHIP_SIZE * anime_frame, CHIP_SIZE * 4, CHIP_SIZE, CHIP_SIZE, handle, TRUE);
+				}
+				if (up && down && left && !right)
+				{
+					DrawRectGraph(Hor * CHIP_SIZE + 420, Ver * CHIP_SIZE, CHIP_SIZE * anime_frame, CHIP_SIZE * 5, CHIP_SIZE, CHIP_SIZE, handle, TRUE);
+				}
+				if (up && !down && left && !right)
+				{
+					DrawRectGraph(Hor * CHIP_SIZE + 420, Ver * CHIP_SIZE, CHIP_SIZE * anime_frame, CHIP_SIZE * 6, CHIP_SIZE, CHIP_SIZE, handle, TRUE);
+				}
+				if (up && !down && left && right)
+				{
+					DrawRectGraph(Hor * CHIP_SIZE + 420, Ver * CHIP_SIZE, CHIP_SIZE * anime_frame, CHIP_SIZE * 7, CHIP_SIZE, CHIP_SIZE, handle, TRUE);
+				}
+				if (up && !down && !left && right)
+				{
+					DrawRectGraph(Hor * CHIP_SIZE + 420, Ver * CHIP_SIZE, CHIP_SIZE * anime_frame, CHIP_SIZE * 8, CHIP_SIZE, CHIP_SIZE, handle, TRUE);
+				}
+				if (up && down && !left && right)
+				{
+					DrawRectGraph(Hor * CHIP_SIZE + 420, Ver * CHIP_SIZE, CHIP_SIZE * anime_frame, CHIP_SIZE * 9, CHIP_SIZE, CHIP_SIZE, handle, TRUE);
+				}
+				if (!up && down && !left && !right)
+				{
+					DrawRectGraph(Hor * CHIP_SIZE + 420, Ver * CHIP_SIZE, CHIP_SIZE * anime_frame, CHIP_SIZE * 10, CHIP_SIZE, CHIP_SIZE, handle, TRUE);
+				}
+				if (!up && !down && left && !right)
+				{
+					DrawRectGraph(Hor * CHIP_SIZE + 420, Ver * CHIP_SIZE, CHIP_SIZE * anime_frame, CHIP_SIZE * 11, CHIP_SIZE, CHIP_SIZE, handle, TRUE);
+				}
+				if (up && !down && !left && !right)
+				{
+					DrawRectGraph(Hor * CHIP_SIZE + 420, Ver * CHIP_SIZE, CHIP_SIZE * anime_frame, CHIP_SIZE * 12, CHIP_SIZE, CHIP_SIZE, handle, TRUE);
+				}
+				if (!up && !down && !left && right)
+				{
+					DrawRectGraph(Hor * CHIP_SIZE + 420, Ver * CHIP_SIZE, CHIP_SIZE * anime_frame, CHIP_SIZE * 13, CHIP_SIZE, CHIP_SIZE, handle, TRUE);
+				}
+			}
+		}
+	}
+
+	//泡の表示
+	if (liquid_count != 0)
+	{
+		if (bubble_timer == 0)
+		{
+			do
+			{
+				bubble_pos[0] = { GetRand(21), GetRand(21) };
+			} while (Liquid[bubble_pos[0].first][bubble_pos[0].second] != 1);
+			do
+			{
+				bubble_pos[1] = { GetRand(21), GetRand(21) };
+			} while (Liquid[bubble_pos[1].first][bubble_pos[1].second] != 1);
+			do
+			{
+				bubble_pos[2] = { GetRand(21), GetRand(21) };
+			} while (Liquid[bubble_pos[2].first][bubble_pos[2].second] != 1);
+		}
+		DrawRectGraph(bubble_pos[0].second * CHIP_SIZE + 420, bubble_pos[0].first * CHIP_SIZE, CHIP_SIZE * anime_frame, CHIP_SIZE * 14, CHIP_SIZE, CHIP_SIZE, handle, TRUE);
+		DrawRectGraph(bubble_pos[1].second * CHIP_SIZE + 420, bubble_pos[1].first * CHIP_SIZE, CHIP_SIZE * anime_frame, CHIP_SIZE * 14, CHIP_SIZE, CHIP_SIZE, handle, TRUE);
+		DrawRectGraph(bubble_pos[2].second * CHIP_SIZE + 420, bubble_pos[2].first * CHIP_SIZE, CHIP_SIZE * anime_frame, CHIP_SIZE * 14, CHIP_SIZE, CHIP_SIZE, handle, TRUE);
+	}
+}
+
+void countPoison()
+{
+	liquid_count = 0;
+	for (int Ver = 0; Ver < MAPDATA_V_MAX; Ver++)
+	{
+		for (int Hor = 0; Hor < MAPDATA_H_MAX; Hor++)
+		{
+			if (Liquid[Ver][Hor] == 1)
+			{
+				liquid_count++;
 			}
 		}
 	}
@@ -224,6 +342,13 @@ void BFS()
 			goalPos = make_pair(p.first - 1, p.second);
 			searchRoute();
 			isGoal = true;
+			for (int Ver = 0; Ver < MAPDATA_V_MAX; Ver++)
+			{
+				for (int Hor = 0; Hor < MAPDATA_H_MAX; Hor++)
+				{
+					temp_count[Ver][Hor] = Count[Ver][Hor];
+				}
+			}
 			break;
 		}
 
@@ -244,6 +369,13 @@ void BFS()
 			goalPos = make_pair(p.first + 1, p.second);
 			searchRoute();
 			isGoal = true;
+			for (int Ver = 0; Ver < MAPDATA_V_MAX; Ver++)
+			{
+				for (int Hor = 0; Hor < MAPDATA_H_MAX; Hor++)
+				{
+					temp_count[Ver][Hor] = Count[Ver][Hor];
+				}
+			}
 			break;
 		}
 
@@ -264,6 +396,13 @@ void BFS()
 			goalPos = make_pair(p.first, p.second - 1);
 			searchRoute();
 			isGoal = true;
+			for (int Ver = 0; Ver < MAPDATA_V_MAX; Ver++)
+			{
+				for (int Hor = 0; Hor < MAPDATA_H_MAX; Hor++)
+				{
+					temp_count[Ver][Hor] = Count[Ver][Hor];
+				}
+			}
 			break;
 		}
 
@@ -284,6 +423,13 @@ void BFS()
 			goalPos = make_pair(p.first, p.second + 1);
 			searchRoute();
 			isGoal = true;
+			for (int Ver = 0; Ver < MAPDATA_V_MAX; Ver++)
+			{
+				for (int Hor = 0; Hor < MAPDATA_H_MAX; Hor++)
+				{
+					temp_count[Ver][Hor] = Count[Ver][Hor];
+				}
+			}
 			break;
 		}
 
@@ -295,6 +441,13 @@ void BFS()
 		//目標地点が見つからなかった場合初期化して終了
 		else
 		{
+			for (int Ver = 0; Ver < MAPDATA_V_MAX; Ver++)
+			{
+				for (int Hor = 0; Hor < MAPDATA_H_MAX; Hor++)
+				{
+					temp_count[Ver][Hor] = Count[Ver][Hor];
+				}
+			}
 			//初期化
 			initField();
 			break;

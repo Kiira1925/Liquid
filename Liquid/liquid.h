@@ -21,6 +21,8 @@ private:
 void initLiquid();
 void initField();
 void searchRoute();
+void countPoison();
 void spreadWave(int handle);
+void drawWave(int handle);
 void drawPoison(int handle);
 void BFS();

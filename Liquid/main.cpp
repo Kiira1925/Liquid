@@ -124,8 +124,8 @@ void Scene_Choice::end(void)
 void Scene_Game::init(void)
 {
     game_bg.init(&game_bg);
-    map.init(Stage_Select::getInstance()->reNum());
-    //map.init(0);
+    //map.init(Stage_Select::getInstance()->reNum());
+    map.init(0);
     initField();
     Player::getInstance()->init();
     poison_hanlde = LoadGraph("Data\\Images\\poisonasset.png");
@@ -140,7 +140,9 @@ void Scene_Game::update(int GameTime)
     map.update();
     Player::getInstance()->update();
     game_conduct.updateDebug(&game_conduct, &usable);   // debug
+    countPoison();
     BFS();
+    spreadWave(poison_hanlde);
 }
 
 // ƒQ[ƒ€•`‰æˆ—
@@ -149,7 +151,9 @@ void Scene_Game::draw(int GameTime)
     game_bg.draw(&game_bg);
     map.draw();
     drawPoison(poison_hanlde);
-    spreadWave(poison_hanlde);
+    map.drawBreakable();
+    map.drawSpring();
+    drawWave(poison_hanlde);
     Player::getInstance()->draw();
     sys.drawDebugString();      // debug
 }
