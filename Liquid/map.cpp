@@ -28,7 +28,7 @@ void Map::end()
 
 void Map::loadChipData()
 {
-	handle = LoadGraph("Data\\Images\\chip.png");
+	handle = LoadGraph("Data\\Images\\mapasset.png");
 }
 
 void Map::drawMap()
@@ -37,7 +37,113 @@ void Map::drawMap()
 	{
 		for (int Hor = 0; Hor < MAPDATA_H_MAX; Hor++)
 		{
-			DrawRectGraph(Map::getInstance()->rel_posX + Hor * CHIP_SIZE, MAP_DRAW_POSITION_Y + Ver * CHIP_SIZE, Map::getInstance()->map_data[Ver][Hor] * CHIP_SIZE, 0, CHIP_SIZE, CHIP_SIZE, handle, TRUE, FALSE);
+			if (Map::getInstance()->map_data[Ver][Hor] == 1)
+			{
+				DrawRectGraph(Map::getInstance()->rel_posX + Hor * CHIP_SIZE, MAP_DRAW_POSITION_Y + Ver * CHIP_SIZE, 0 * CHIP_SIZE, 3 * CHIP_SIZE, CHIP_SIZE, CHIP_SIZE, handle, TRUE, FALSE);
+			}
+			if (Map::getInstance()->map_data[Ver][Hor] == 2)
+			{
+				bool up = (Map::getInstance()->map_data[Ver - 1][Hor] == 2);
+				bool down = (Map::getInstance()->map_data[Ver + 1][Hor] == 2);
+				bool left = (Map::getInstance()->map_data[Ver][Hor - 1] == 2);
+				bool right = (Map::getInstance()->map_data[Ver][Hor + 1] == 2);
+
+				if (!up && down && !left && right)
+				{
+					DrawRectGraph(Map::getInstance()->rel_posX + Hor * CHIP_SIZE, MAP_DRAW_POSITION_Y + Ver * CHIP_SIZE, 0 * CHIP_SIZE, 0 * CHIP_SIZE, CHIP_SIZE, CHIP_SIZE, handle, TRUE, FALSE);
+				}
+				if (!up && down && left && right)
+				{
+					DrawRectGraph(Map::getInstance()->rel_posX + Hor * CHIP_SIZE, MAP_DRAW_POSITION_Y + Ver * CHIP_SIZE, 1 * CHIP_SIZE, 0 * CHIP_SIZE, CHIP_SIZE, CHIP_SIZE, handle, TRUE, FALSE);
+				}
+				if (!up && down && left && !right)
+				{
+					DrawRectGraph(Map::getInstance()->rel_posX + Hor * CHIP_SIZE, MAP_DRAW_POSITION_Y + Ver * CHIP_SIZE, 2 * CHIP_SIZE, 0 * CHIP_SIZE, CHIP_SIZE, CHIP_SIZE, handle, TRUE, FALSE);
+				}
+				if (up && down && !left && right)
+				{
+					DrawRectGraph(Map::getInstance()->rel_posX + Hor * CHIP_SIZE, MAP_DRAW_POSITION_Y + Ver * CHIP_SIZE, 0 * CHIP_SIZE, 1 * CHIP_SIZE, CHIP_SIZE, CHIP_SIZE, handle, TRUE, FALSE);
+				}
+				if (up && down && left && right)
+				{
+					DrawRectGraph(Map::getInstance()->rel_posX + Hor * CHIP_SIZE, MAP_DRAW_POSITION_Y + Ver * CHIP_SIZE, 1 * CHIP_SIZE, 1 * CHIP_SIZE, CHIP_SIZE, CHIP_SIZE, handle, TRUE, FALSE);
+				}
+				if (up && down && left && !right)
+				{
+					DrawRectGraph(Map::getInstance()->rel_posX + Hor * CHIP_SIZE, MAP_DRAW_POSITION_Y + Ver * CHIP_SIZE, 2 * CHIP_SIZE, 1 * CHIP_SIZE, CHIP_SIZE, CHIP_SIZE, handle, TRUE, FALSE);
+				}
+				if (up && !down && !left && right)
+				{
+					DrawRectGraph(Map::getInstance()->rel_posX + Hor * CHIP_SIZE, MAP_DRAW_POSITION_Y + Ver * CHIP_SIZE, 0 * CHIP_SIZE, 2 * CHIP_SIZE, CHIP_SIZE, CHIP_SIZE, handle, TRUE, FALSE);
+				}
+				if (up && !down && left && right)
+				{
+					DrawRectGraph(Map::getInstance()->rel_posX + Hor * CHIP_SIZE, MAP_DRAW_POSITION_Y + Ver * CHIP_SIZE, 1 * CHIP_SIZE, 2 * CHIP_SIZE, CHIP_SIZE, CHIP_SIZE, handle, TRUE, FALSE);
+				}
+				if (up && !down && left && !right)
+				{
+					DrawRectGraph(Map::getInstance()->rel_posX + Hor * CHIP_SIZE, MAP_DRAW_POSITION_Y + Ver * CHIP_SIZE, 2 * CHIP_SIZE, 2 * CHIP_SIZE, CHIP_SIZE, CHIP_SIZE, handle, TRUE, FALSE);
+				}
+				if (!up && down && !left && !right)
+				{
+					DrawRectGraph(Map::getInstance()->rel_posX + Hor * CHIP_SIZE, MAP_DRAW_POSITION_Y + Ver * CHIP_SIZE, 3 * CHIP_SIZE, 0 * CHIP_SIZE, CHIP_SIZE, CHIP_SIZE, handle, TRUE, FALSE);
+				}
+				if (up && down && !left && !right)
+				{
+					DrawRectGraph(Map::getInstance()->rel_posX + Hor * CHIP_SIZE, MAP_DRAW_POSITION_Y + Ver * CHIP_SIZE, 3 * CHIP_SIZE, 1 * CHIP_SIZE, CHIP_SIZE, CHIP_SIZE, handle, TRUE, FALSE);
+				}
+				if (up && !down && !left && !right)
+				{
+					DrawRectGraph(Map::getInstance()->rel_posX + Hor * CHIP_SIZE, MAP_DRAW_POSITION_Y + Ver * CHIP_SIZE, 3 * CHIP_SIZE, 2 * CHIP_SIZE, CHIP_SIZE, CHIP_SIZE, handle, TRUE, FALSE);
+				}
+				if (!up && !down && !left && right)
+				{
+					DrawRectGraph(Map::getInstance()->rel_posX + Hor * CHIP_SIZE, MAP_DRAW_POSITION_Y + Ver * CHIP_SIZE, 4 * CHIP_SIZE, 0 * CHIP_SIZE, CHIP_SIZE, CHIP_SIZE, handle, TRUE, FALSE);
+				}
+				if (!up && !down && left && right)
+				{
+					DrawRectGraph(Map::getInstance()->rel_posX + Hor * CHIP_SIZE, MAP_DRAW_POSITION_Y + Ver * CHIP_SIZE, 5 * CHIP_SIZE, 0 * CHIP_SIZE, CHIP_SIZE, CHIP_SIZE, handle, TRUE, FALSE);
+				}
+				if (!up && !down && left && !right)
+				{
+					DrawRectGraph(Map::getInstance()->rel_posX + Hor * CHIP_SIZE, MAP_DRAW_POSITION_Y + Ver * CHIP_SIZE, 6 * CHIP_SIZE, 0 * CHIP_SIZE, CHIP_SIZE, CHIP_SIZE, handle, TRUE, FALSE);
+				}
+				if (!up && !down && !left && !right)
+				{
+					DrawRectGraph(Map::getInstance()->rel_posX + Hor * CHIP_SIZE, MAP_DRAW_POSITION_Y + Ver * CHIP_SIZE, 7 * CHIP_SIZE, 0 * CHIP_SIZE, CHIP_SIZE, CHIP_SIZE, handle, TRUE, FALSE);
+				}
+			}
+			//DrawRectGraph(Map::getInstance()->rel_posX + Hor * CHIP_SIZE, MAP_DRAW_POSITION_Y + Ver * CHIP_SIZE, Map::getInstance()->map_data[Ver][Hor] * CHIP_SIZE, 0, CHIP_SIZE, CHIP_SIZE, handle, TRUE, FALSE);
+		}
+	}
+}
+
+void Map::drawBreakable()
+{
+	for (int Ver = 0; Ver < MAPDATA_V_MAX; Ver++)
+	{
+		for (int Hor = 0; Hor < MAPDATA_H_MAX; Hor++)
+		{
+			if (Map::getInstance()->map_data[Ver][Hor] == 3)
+			{
+				DrawRectGraph(Map::getInstance()->rel_posX + Hor * CHIP_SIZE, MAP_DRAW_POSITION_Y + Ver * CHIP_SIZE - 26, 0 * CHIP_SIZE, 262, CHIP_SIZE, CHIP_SIZE + 26, handle, TRUE, FALSE);
+			}
+		}
+	}
+}
+
+void Map::drawSpring()
+{
+	Map::getInstance()->anime_timer++;
+	int anime_frame = Map::getInstance()->anime_timer %48 /8;
+	for (int Ver = 0; Ver < MAPDATA_V_MAX; Ver++)
+	{
+		for (int Hor = 0; Hor < MAPDATA_H_MAX; Hor++)
+		{
+			if (Map::getInstance()->map_data[Ver][Hor] == 5)
+			{
+				DrawRectGraph(Map::getInstance()->rel_posX + Hor * CHIP_SIZE, MAP_DRAW_POSITION_Y + Ver * CHIP_SIZE - 24, anime_frame * CHIP_SIZE, 360, CHIP_SIZE, CHIP_SIZE + 24, handle, TRUE, FALSE);
+			}
 		}
 	}
 }

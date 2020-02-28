@@ -11,11 +11,14 @@
 #define		MAP_DRAW_POSITION_X	(420)
 #define		MAP_DRAW_POSITION_Y	(0)
 
+enum MapNum { Void, Road, Wall, Breakable, Spring, Goal };
 enum ObjectNum {None,PlayerSpawnPoint,};
 class Map : public Sprite, public Singleton<Map>
 {
 private:
 public:
+	int anime_timer;
+
 	const char* MapFileName;
 	const char* ObjFileName;
 	//1~20:地形チップ 20~:オブジェクトチップ
@@ -28,6 +31,8 @@ public:
 	void end();
 
 	void drawMap();
+	void drawBreakable();
+	void drawSpring();
 	void loadChipData();
 	void loadMapData(int stage_num);
 };
