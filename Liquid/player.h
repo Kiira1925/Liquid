@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include "common.h"
 #include "main.h"
 #include "singleton.h"
@@ -7,6 +8,8 @@
 #define FastPy 7
 
 #define BL_MAX 5
+using namespace std;
+#define Search pair<int,int>
 
 enum HitType 
 {
@@ -22,7 +25,7 @@ class Block :public Sprite
 {
 public:
     void init(Block* block,int x,int y);
-    void update(Block* block);
+    void update(Block* block,Block* zero);
     void draw(Block* block);
     void end(Block* block);
 
@@ -40,6 +43,8 @@ public:
     int posNumY;
 
     int blockState;
+    int blockFront;
+    int blockBack;
     bool flg;
 protected:
     //int posX = 0;
@@ -62,7 +67,8 @@ public:
     void update();
     void draw();
     void end();
-    void update2(Block* block);
+    void update2(Block* block, int* temp_block_state);
+    void update3(int* temp_block_state);
 
     int timer;
     int drawState;
@@ -83,3 +89,4 @@ public:
 
     //int handle = 0;
 };
+

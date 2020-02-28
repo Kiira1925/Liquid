@@ -35,6 +35,8 @@ Scene_State     state;
 Block blocks[BL_MAX];
 int poison_hanlde;
 
+int temp_block_state[BL_MAX];
+
 //
 // ’è‹`‚±‚±‚Ü‚Å
 //////////////////////////////////////////////////////////////////////////
@@ -188,54 +190,57 @@ void Scene_Game::update(int GameTime)
     relative.cal_relative_pos();
     game_bg.update(&game_bg);
     map.update();
-    Player::getInstance()->update2(&blocks[0]);
+
     switch (Stage_Select::getInstance()->reNum()) 
     {
     case 1:
-        blocks[0].update(&blocks[0]);
-        blocks[1].update(&blocks[1]);
+        Player::getInstance()->update2(&blocks[0], &temp_block_state[0]);
+        Player::getInstance()->update2(&blocks[1], &temp_block_state[1]);
+        blocks[0].update(&blocks[0],&blocks[0]);
+        blocks[1].update(&blocks[1],&blocks[0]);
         break;
 
     case 2:
-        blocks[0].update(&blocks[0]);
-        blocks[1].update(&blocks[1]);
+        blocks[0].update(&blocks[0], &blocks[0]);
+        blocks[1].update(&blocks[1], &blocks[0]);
         break;
 
     case 3:
-        blocks[0].update(&blocks[0]);
-        blocks[1].update(&blocks[1]);
+        blocks[0].update(&blocks[0], &blocks[0]);
+        blocks[1].update(&blocks[1], &blocks[0]);
         break;
 
     case 4:
-        blocks[0].update(&blocks[0]);
-        blocks[1].update(&blocks[1]);
+        blocks[0].update(&blocks[0], &blocks[0]);
+        blocks[1].update(&blocks[1], &blocks[0]);
         break;
 
     case 5:
-        blocks[0].update(&blocks[0]);
-        blocks[1].update(&blocks[1]);
+        blocks[0].update(&blocks[0], &blocks[0]);
+        blocks[1].update(&blocks[1], &blocks[0]);
         break;
 
     case 6:
-        blocks[0].update(&blocks[0]);
-        blocks[1].update(&blocks[1]);
+        blocks[0].update(&blocks[0], &blocks[0]);
+        blocks[1].update(&blocks[1], &blocks[0]);
         break;
 
     case 7:
-        blocks[0].update(&blocks[0]);
-        blocks[1].update(&blocks[1]);
+        blocks[0].update(&blocks[0], &blocks[0]);
+        blocks[1].update(&blocks[1], &blocks[0]);
         break;
 
     case 8:
-        blocks[0].update(&blocks[0]);
-        blocks[1].update(&blocks[1]);
+        blocks[0].update(&blocks[0], &blocks[0]);
+        blocks[1].update(&blocks[1], &blocks[0]);
         break;
 
     case 9:
-        blocks[0].update(&blocks[0]);
-        blocks[1].update(&blocks[1]);
+        blocks[0].update(&blocks[0], &blocks[0]);
+        blocks[1].update(&blocks[1], &blocks[0]);
         break;
     }
+    Player::getInstance()->update3(&temp_block_state[0]);
     game_conduct.updateDebug(&game_conduct, &usable);   // debug
     countPoison();
     BFS();
