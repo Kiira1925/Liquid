@@ -22,4 +22,6 @@ void System::drawDebugString()
     DrawFormatString(0, 200, cr, "%d", Player::getInstance()->posNumY);
     DrawFormatString(0, 220, cr, "%d", Player::getInstance()->getPosY());
     DrawFormatString(0, 260, cr, "%d", Stage_Select::getInstance()->reNum());
+
+
 }
