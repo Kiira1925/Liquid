@@ -192,7 +192,7 @@ void Player::end()
 }
 
 
-void Block::init(Block* block) 
+void Block::init(Block* block,int x,int y) 
 {
 	block->handle = LoadGraph("Data\\Images\\block.png");
 
@@ -207,8 +207,8 @@ void Block::init(Block* block)
 
 	block->timer = 0;       // タイマー
 	block->state = 0;       // キー入力の種類(0:無し1:右2:左3:上4:下)
-	block->posNumX = FastPx + 1;     // 初期座標(マップチップの位置)
-	block->posNumY = FastPy;
+	block->posNumX = x;     // 初期座標(マップチップの位置)
+	block->posNumY = y;
 	block->drawState = 0;   // アニメーションの状態(方向)
 	block->aniState = 0;    // モーション
 

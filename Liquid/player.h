@@ -5,6 +5,7 @@
 
 #define FastPx 8
 #define FastPy 7
+
 #define BL_MAX 5
 
 enum HitType 
@@ -20,7 +21,7 @@ enum HitType
 class Block :public Sprite
 {
 public:
-    void init(Block* block);
+    void init(Block* block,int x,int y);
     void update(Block* block);
     void draw(Block* block);
     void end(Block* block);

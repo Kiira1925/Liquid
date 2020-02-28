@@ -129,48 +129,48 @@ void Scene_Game::init(void)
     switch (Stage_Select::getInstance()->reNum())
     {
     case 1:
-        blocks[0].init(&blocks[0]);
-        blocks[1].init(&blocks[1]);
+        blocks[0].init(&blocks[0],7,8);
+        blocks[1].init(&blocks[1],7,10);
         break;
 
     case 2:
-        blocks[0].init(&blocks[0]);
-        blocks[1].init(&blocks[1]);
+        blocks[0].init(&blocks[0],0,0);
+        blocks[1].init(&blocks[1], 0, 0);
         break;
 
     case 3:
-        blocks[0].init(&blocks[0]);
-        blocks[1].init(&blocks[1]);
+        blocks[0].init(&blocks[0], 0, 0);
+        blocks[1].init(&blocks[1], 0, 0);
         break;
 
     case 4:
-        blocks[0].init(&blocks[0]);
-        blocks[1].init(&blocks[1]);
+        blocks[0].init(&blocks[0], 0, 0);
+        blocks[1].init(&blocks[1], 0, 0);
         break;
 
     case 5:
-        blocks[0].init(&blocks[0]);
-        blocks[1].init(&blocks[1]);
+        blocks[0].init(&blocks[0], 0, 0);
+        blocks[1].init(&blocks[1], 0, 0);
         break;
 
     case 6:
-        blocks[0].init(&blocks[0]);
-        blocks[1].init(&blocks[1]);
+        blocks[0].init(&blocks[0], 0, 0);
+        blocks[1].init(&blocks[1], 0, 0);
         break;
 
     case 7:
-        blocks[0].init(&blocks[0]);
-        blocks[1].init(&blocks[1]);
+        blocks[0].init(&blocks[0], 0, 0);
+        blocks[1].init(&blocks[1], 0, 0);
         break;
 
     case 8:
-        blocks[0].init(&blocks[0]);
-        blocks[1].init(&blocks[1]);
+        blocks[0].init(&blocks[0], 0, 0);
+        blocks[1].init(&blocks[1], 0, 0);
         break;
 
     case 9:
-        blocks[0].init(&blocks[0]);
-        blocks[1].init(&blocks[1]);
+        blocks[0].init(&blocks[0], 0, 0);
+        blocks[1].init(&blocks[1], 0, 0);
         break;
     }
 
