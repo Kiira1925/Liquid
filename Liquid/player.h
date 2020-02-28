@@ -5,6 +5,7 @@
 
 #define FastPx 8
 #define FastPy 7
+#define BL_MAX 5
 
 enum HitType 
 {
@@ -14,37 +15,6 @@ enum HitType
     BREAK,
     DOOR
     
-};
-
-class Player :public Sprite ,public Singleton<Player> 
-{
-private:
-	//static const int OBJ_MAX = 1;   
-
-public:
-	void init();
-    void update();
-    void draw();
-    void end();
-
-    int timer;
-    int drawState;
-    int aniState;
-    int state;
-    int posNumX;
-    int posNumY;
-
-    int blockState;
-    bool flg;
-    //int posX = 0;  　　　システム内部座標
-    //int posY = 0;
-    //int rel_posX = 0;　　描画座標
-    //int rel_posY = 0;
-
-    //int width = 0;　　　サイズ
-    //int height = 0;
-
-    //int handle = 0;
 };
 
 class Block :public Sprite
@@ -78,5 +48,37 @@ protected:
 
     //int width = 0;
     //int height = 0;
+    //int handle = 0;
+};
+
+class Player :public Sprite ,public Singleton<Player> 
+{
+private:
+	//static const int OBJ_MAX = 1;   
+
+public:
+	void init();
+    void update();
+    void draw();
+    void end();
+    void update2(Block* block);
+
+    int timer;
+    int drawState;
+    int aniState;
+    int state;
+    int posNumX;
+    int posNumY;
+
+    int blockState;
+    bool flg;
+    //int posX = 0;  　　　システム内部座標
+    //int posY = 0;
+    //int rel_posX = 0;　　描画座標
+    //int rel_posY = 0;
+
+    //int width = 0;　　　サイズ
+    //int height = 0;
+
     //int handle = 0;
 };

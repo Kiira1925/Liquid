@@ -20,6 +20,7 @@ public:
 	const char* ObjFileName;
 	//1~20:地形チップ 20~:オブジェクトチップ
 	int map_data[MAPDATA_V_MAX][MAPDATA_H_MAX];
+	int block_max;
 
 	void init(int stage_num);
 	void update();

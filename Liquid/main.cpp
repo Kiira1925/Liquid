@@ -31,7 +31,7 @@ Relative        relative;
 
 Scene_State     state;
 
-Block blocks;
+Block blocks[BL_MAX];
 
 //
 // 定義ここまで
@@ -125,7 +125,55 @@ void Scene_Game::init(void)
     game_bg.init(&game_bg);
     map.init(Stage_Select::getInstance()->reNum());
     Player::getInstance()->init();
-    blocks.init(&blocks);
+
+    switch (Stage_Select::getInstance()->reNum())
+    {
+    case 1:
+        blocks[0].init(&blocks[0]);
+        blocks[1].init(&blocks[1]);
+        break;
+
+    case 2:
+        blocks[0].init(&blocks[0]);
+        blocks[1].init(&blocks[1]);
+        break;
+
+    case 3:
+        blocks[0].init(&blocks[0]);
+        blocks[1].init(&blocks[1]);
+        break;
+
+    case 4:
+        blocks[0].init(&blocks[0]);
+        blocks[1].init(&blocks[1]);
+        break;
+
+    case 5:
+        blocks[0].init(&blocks[0]);
+        blocks[1].init(&blocks[1]);
+        break;
+
+    case 6:
+        blocks[0].init(&blocks[0]);
+        blocks[1].init(&blocks[1]);
+        break;
+
+    case 7:
+        blocks[0].init(&blocks[0]);
+        blocks[1].init(&blocks[1]);
+        break;
+
+    case 8:
+        blocks[0].init(&blocks[0]);
+        blocks[1].init(&blocks[1]);
+        break;
+
+    case 9:
+        blocks[0].init(&blocks[0]);
+        blocks[1].init(&blocks[1]);
+        break;
+    }
+
 }
 
 // ゲーム更新処理
@@ -134,8 +182,54 @@ void Scene_Game::update(int GameTime)
     relative.cal_relative_pos();
     game_bg.update(&game_bg);
     map.update();
-    Player::getInstance()->update();
-    blocks.update(&blocks);
+    Player::getInstance()->update2(&blocks[0]);
+    switch (Stage_Select::getInstance()->reNum()) 
+    {
+    case 1:
+        blocks[0].update(&blocks[0]);
+        blocks[1].update(&blocks[1]);
+        break;
+
+    case 2:
+        blocks[0].update(&blocks[0]);
+        blocks[1].update(&blocks[1]);
+        break;
+
+    case 3:
+        blocks[0].update(&blocks[0]);
+        blocks[1].update(&blocks[1]);
+        break;
+
+    case 4:
+        blocks[0].update(&blocks[0]);
+        blocks[1].update(&blocks[1]);
+        break;
+
+    case 5:
+        blocks[0].update(&blocks[0]);
+        blocks[1].update(&blocks[1]);
+        break;
+
+    case 6:
+        blocks[0].update(&blocks[0]);
+        blocks[1].update(&blocks[1]);
+        break;
+
+    case 7:
+        blocks[0].update(&blocks[0]);
+        blocks[1].update(&blocks[1]);
+        break;
+
+    case 8:
+        blocks[0].update(&blocks[0]);
+        blocks[1].update(&blocks[1]);
+        break;
+
+    case 9:
+        blocks[0].update(&blocks[0]);
+        blocks[1].update(&blocks[1]);
+        break;
+    }
     game_conduct.updateDebug(&game_conduct, &usable);   // debug
 }
 
@@ -145,7 +239,55 @@ void Scene_Game::draw(int GameTime)
     game_bg.draw(&game_bg);
     map.draw();
     Player::getInstance()->draw();
-    blocks.draw(&blocks);
+    switch (Stage_Select::getInstance()->reNum())
+    {
+    case 1:
+        blocks[0].draw(&blocks[0]);
+        blocks[1].draw(&blocks[1]);
+        break;
+
+    case 2:
+        blocks[0].draw(&blocks[0]);
+        blocks[1].draw(&blocks[1]);
+        break;
+
+    case 3:
+        blocks[0].draw(&blocks[0]);
+        blocks[1].draw(&blocks[1]);
+        break;
+
+    case 4:
+        blocks[0].draw(&blocks[0]);
+        blocks[1].draw(&blocks[1]);
+        break;
+
+    case 5:
+        blocks[0].draw(&blocks[0]);
+        blocks[1].draw(&blocks[1]);
+        break;
+
+    case 6:
+        blocks[0].draw(&blocks[0]);
+        blocks[1].draw(&blocks[1]);
+        break;
+
+    case 7:
+        blocks[0].draw(&blocks[0]);
+        blocks[1].draw(&blocks[1]);
+        break;
+
+    case 8:
+        blocks[0].draw(&blocks[0]);
+        blocks[1].draw(&blocks[1]);
+        break;
+
+    case 9:
+        blocks[0].draw(&blocks[0]);
+        blocks[1].draw(&blocks[1]);
+        break;
+    }
+
+
     sys.drawDebugString();      // debug
 
 }
@@ -154,6 +296,54 @@ void Scene_Game::draw(int GameTime)
 void Scene_Game::end(void)
 {
     game_bg.end(&game_bg);
+    switch (Stage_Select::getInstance()->reNum())
+    {
+    case 1:
+        blocks[0].end(&blocks[0]);
+        blocks[1].end(&blocks[1]); 
+        break;
+
+    case 2:
+        blocks[0].end(&blocks[0]);
+        blocks[1].end(&blocks[1]);
+        break;
+
+    case 3:
+        blocks[0].end(&blocks[0]);
+        blocks[1].end(&blocks[1]);
+        break;
+
+    case 4:
+        blocks[0].end(&blocks[0]);
+        blocks[1].end(&blocks[1]);
+        break;
+
+    case 5:
+        blocks[0].end(&blocks[0]);
+        blocks[1].end(&blocks[1]);
+        break;
+
+    case 6:
+        blocks[0].end(&blocks[0]);
+        blocks[1].end(&blocks[1]);
+        break;
+
+    case 7:
+        blocks[0].end(&blocks[0]);
+        blocks[1].end(&blocks[1]);
+        break;
+
+    case 8:
+        blocks[0].end(&blocks[0]);
+        blocks[1].end(&blocks[1]);
+        break;
+
+    case 9:
+        blocks[0].end(&blocks[0]);
+        blocks[1].end(&blocks[1]);
+        break;
+    }
+
 }
 
 //
