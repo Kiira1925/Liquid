@@ -243,6 +243,8 @@ void Scene_Game::update(int GameTime)
     BFS();
     spreadWave(poison_hanlde);
     meltBreakable();
+    BFS_FILL();
+    deleteLiquid(&blocks[0]);
 }
 
 // ƒQ[ƒ€•`‰æˆ—

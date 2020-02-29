@@ -157,12 +157,12 @@ void Map::loadMapData(int stage_num)
 	case 0:
 		Map::getInstance()->MapFileName = "Data\\Map\\TestStage.csv";
 		Map::getInstance()->ObjFileName = "Data\\Map\\TestObject.csv";
-		block_max = 1;
+		Map::getInstance()->block_max = 2;
 		break;
 	case 1:
 		Map::getInstance()->MapFileName = "Data\\Map\\Stage1.csv";
 		Map::getInstance()->ObjFileName = "Data\\Map\\Object1.csv";
-		block_max = 2;
+		Map::getInstance()->block_max = 2;
 		break;
 	case 2:
 		Map::getInstance()->MapFileName = "Data\\Map\\Stage2.csv";

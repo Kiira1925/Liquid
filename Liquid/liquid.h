@@ -1,6 +1,7 @@
 #pragma once
 #include "common.h"
 #include "singleton.h"
+#include "player.h"
 
 #define Pair pair<int,int>
 
@@ -27,4 +28,6 @@ void breakAnimation(int break_handle);
 void spreadWave(int handle);
 void drawWave(int handle);
 void drawPoison(int handle);
+void deleteLiquid(Block* instanceOfZERO);
 void BFS();
+void BFS_FILL();

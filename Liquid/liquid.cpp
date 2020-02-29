@@ -5,6 +5,7 @@
 #include "map.h"
 #include "DxLib.h"
 
+
 using namespace std;
 //using Field = vector<vector<int>>;
 
@@ -14,7 +15,9 @@ int Liquid[22][22];
 int Visit[22][22];
 //各ブロックの訪問順を保存する配列
 int Count[22][22];
-int temp_count[22][22];
+//int temp_count[22][22];
+int temp_visit[22][22];
+int fill_visit[22][22];
 
 //ゴール地点を保存する変数
 Pair goalPos;
@@ -53,6 +56,7 @@ void initLiquid()
 			{
 				Liquid[Ver][Hor] = -1;
 			}
+			fill_visit[Ver][Hor] = -1;
 			//else if(Map::getInstance()->map_data[Ver][Hor] == 1)
 			//{
 			//	Liquid[Ver][Hor] = 0;
@@ -70,7 +74,7 @@ void initLiquid()
 			//}
 		}
 	}
-	liquid_max = 120;
+	liquid_max = 20;
 	poison_aniTimer = 0;
 }
 
@@ -351,6 +355,60 @@ void countPoison()
 	}
 }
 
+void deleteLiquid(Block* instanceOfZERO)
+{
+	//ブロックの存在座標を一度リセット
+	for (int Ver = 0; Ver < MAPDATA_V_MAX; Ver++)
+	{
+		for (int Hor = 0; Hor < MAPDATA_H_MAX; Hor++)
+		{
+			if (Liquid[Ver][Hor] == -2)
+			{
+				Liquid[Ver][Hor] = 0;
+			}
+		}
+	}
+
+	//ブロックの存在しているチップを壁の判定に切り替える
+	for (int i = 0; i < Map::getInstance()->block_max; i++)
+	{
+		//if (Liquid[(instanceOfZERO + i)->posNumY][(instanceOfZERO + i)->posNumX] == 1)
+		{
+			Liquid[(instanceOfZERO + i)->posNumY][(instanceOfZERO + i)->posNumX] = -2;
+		}
+
+		//for (int Ver = 0; Ver < MAPDATA_V_MAX; Ver++)
+		//{
+		//	for (int Hor = 0; Hor < MAPDATA_H_MAX; Hor++)
+		//	{
+		//		Pair liquid_pos = { Ver, Hor };
+		//		Pair block_pos = { (instanceOfZERO + i)->posNumY, (instanceOfZERO + i)->posNumX };
+		//		if (liquid_pos == block_pos)
+		//		{
+		//			Liquid[Ver][Hor] = -2;
+		//		}
+
+		//		if(Liquid[Ver][Hor] == -2)
+		//		{
+		//			Liquid[Ver][Hor] = 0;
+		//		}
+		//	}
+		//}
+	}
+
+	//水源へのルートが存在しない水流を削除
+	for (int Ver = 0; Ver < MAPDATA_V_MAX; Ver++)
+	{
+		for (int Hor = 0; Hor < MAPDATA_H_MAX; Hor++)
+		{
+			if (temp_visit[Ver][Hor] == -1 && Liquid[Ver][Hor] == 1)
+			{
+				Liquid[Ver][Hor] = 0;
+			}
+		}
+	}
+}
+
 void BFS()
 {
 	//ゴール判定
@@ -409,10 +467,10 @@ void BFS()
 			isGoal = true;
 			for (int Ver = 0; Ver < MAPDATA_V_MAX; Ver++)
 			{
-				for (int Hor = 0; Hor < MAPDATA_H_MAX; Hor++)
+				/*for (int Hor = 0; Hor < MAPDATA_H_MAX; Hor++)
 				{
 					temp_count[Ver][Hor] = Count[Ver][Hor];
-				}
+				}*/
 			}
 			break;
 		}
@@ -436,10 +494,10 @@ void BFS()
 			isGoal = true;
 			for (int Ver = 0; Ver < MAPDATA_V_MAX; Ver++)
 			{
-				for (int Hor = 0; Hor < MAPDATA_H_MAX; Hor++)
-				{
-					temp_count[Ver][Hor] = Count[Ver][Hor];
-				}
+				//for (int Hor = 0; Hor < MAPDATA_H_MAX; Hor++)
+				//{
+				//	temp_count[Ver][Hor] = Count[Ver][Hor];
+				//}
 			}
 			break;
 		}
@@ -463,10 +521,10 @@ void BFS()
 			isGoal = true;
 			for (int Ver = 0; Ver < MAPDATA_V_MAX; Ver++)
 			{
-				for (int Hor = 0; Hor < MAPDATA_H_MAX; Hor++)
-				{
-					temp_count[Ver][Hor] = Count[Ver][Hor];
-				}
+				//for (int Hor = 0; Hor < MAPDATA_H_MAX; Hor++)
+				//{
+				//	temp_count[Ver][Hor] = Count[Ver][Hor];
+				//}
 			}
 			break;
 		}
@@ -490,10 +548,10 @@ void BFS()
 			isGoal = true;
 			for (int Ver = 0; Ver < MAPDATA_V_MAX; Ver++)
 			{
-				for (int Hor = 0; Hor < MAPDATA_H_MAX; Hor++)
-				{
-					temp_count[Ver][Hor] = Count[Ver][Hor];
-				}
+				//for (int Hor = 0; Hor < MAPDATA_H_MAX; Hor++)
+				//{
+				//	temp_count[Ver][Hor] = Count[Ver][Hor];
+				//}
 			}
 			break;
 		}
@@ -508,14 +566,110 @@ void BFS()
 		{
 			for (int Ver = 0; Ver < MAPDATA_V_MAX; Ver++)
 			{
-				for (int Hor = 0; Hor < MAPDATA_H_MAX; Hor++)
-				{
-					temp_count[Ver][Hor] = Count[Ver][Hor];
-				}
+				//for (int Hor = 0; Hor < MAPDATA_H_MAX; Hor++)
+				//{
+				//	temp_count[Ver][Hor] = Count[Ver][Hor];
+				//}
 			}
 			//初期化
 			initField();
 			break;
+		}
+	}
+}
+
+void BFS_FILL()
+{
+	//座標型キュー
+	queue<Pair> que;
+
+	//スタート地点をキューに格納
+	for (int Ver = 0; Ver < MAPDATA_V_MAX; Ver++)
+	{
+		for (int Hor = 0; Hor < MAPDATA_H_MAX; Hor++)
+		{
+			if (Liquid[Ver][Hor] == 10)
+			{
+				que.push(Pair(Ver, Hor));
+				break;
+			}
+		}
+	}
+
+	while (!que.empty())
+	{
+		//格納用変数
+		Pair p;
+		//先頭のキューを取り出す
+		if (!que.empty())
+		{
+			p = que.front();
+		}
+
+		//該当キューの訪問チェックを訪問済みに変更
+		fill_visit[p.first][p.second] = 1;
+
+		//上方向の隣接ブロックを探索
+		if (Liquid[p.first - 1][p.second] == 1)
+		{
+			//隣接するブロックが探索済みでなければ処理を行う
+			if (fill_visit[p.first - 1][p.second] == -1)
+			{
+				//探索予定リストに挿入
+				que.push(Pair((p.first - 1), p.second));
+				//訪問チェック配列の対応する地点を探索予定に変更
+				fill_visit[p.first - 1][p.second] = 0;
+			}
+		}
+
+		//下方向の隣接ブロックを探索
+		if (Liquid[p.first + 1][p.second] == 1)
+		{
+			if (fill_visit[p.first + 1][p.second] == -1)
+			{
+				que.push(Pair((p.first + 1), p.second));
+				fill_visit[p.first + 1][p.second] = 0;
+			}
+		}
+
+		//左方向の隣接ブロックを探索
+		if (Liquid[p.first][p.second - 1] == 1)
+		{
+			if (fill_visit[p.first][p.second - 1] == -1)
+			{
+				que.push(Pair(p.first, (p.second - 1)));
+				fill_visit[p.first][p.second - 1] = 0;
+			}
+		}
+
+		//右方向の隣接ブロックを探索
+		if (Liquid[p.first][p.second + 1] == 1)
+		{
+			if (fill_visit[p.first][p.second + 1] == -1)
+			{
+				que.push(Pair(p.first, (p.second + 1)));
+				fill_visit[p.first][p.second + 1] = 0;
+			}
+		}
+
+		//先頭キューを削除
+		if (!que.empty())
+		{
+			que.pop();
+		}
+	}
+	for (int Ver = 0; Ver < MAPDATA_V_MAX; Ver++)
+	{
+		for (int Hor = 0; Hor < MAPDATA_H_MAX; Hor++)
+		{
+			temp_visit[Ver][Hor] = fill_visit[Ver][Hor];
+		}
+	}
+	for (int Ver = 0; Ver < MAPDATA_V_MAX; Ver++)
+	{
+		for (int Hor = 0; Hor < MAPDATA_H_MAX; Hor++)
+		{
+			fill_visit[Ver][Hor] = -1;
 		}
 	}
 }
