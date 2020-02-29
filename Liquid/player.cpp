@@ -175,22 +175,30 @@ void Player::update2(Block* block, int* temp_block_state)
 
 		if (Input::GetInstance()->GetKey(KEY_INPUT_RIGHT))
 		{
-			drawState = 1;
+			if (block->flg == true) {
+				drawState = 1;
+			}
 			state = 1;
 		}
 		else if (Input::GetInstance()->GetKey(KEY_INPUT_LEFT))
 		{
-			drawState = 2;
+			if (block->flg == true) {
+				drawState = 2;
+			}
 			state = 2;
 		}
 		else if (Input::GetInstance()->GetKey(KEY_INPUT_UP))
 		{
-			drawState = 3;
+			if (block->flg == true) {
+				drawState = 3;
+			}
 			state = 3;
 		}
 		else if (Input::GetInstance()->GetKey(KEY_INPUT_DOWN))
 		{
-			drawState = 4;
+			if (block->flg == true) {
+				drawState = 4;
+			}
 			state = 4;
 		}
 
@@ -267,7 +275,7 @@ void Block::update(Block* block,Block* zero)
 			{
 				block->blockFront = 0;// 前ダメ
 			}
-			else if (Map::getInstance()->map_data[block->posNumY][block->posNumX + 1] == ROAD && searchNum(block, (Player::getInstance()->posNumX + 2), (Player::getInstance()->posNumY)) == false) 
+			if (Map::getInstance()->map_data[block->posNumY][block->posNumX + 1] == ROAD && searchNum(block, (Player::getInstance()->posNumX + 2), (Player::getInstance()->posNumY)) == false) 
 			{
 				block->blockFront = 1;
 			}
@@ -275,15 +283,11 @@ void Block::update(Block* block,Block* zero)
 			{
 				block->blockBack = 0;// 後ろダメ
 			}
-			else if (Map::getInstance()->map_data[block->posNumY][block->posNumX - 2] == ROAD || searchNum(block, (Player::getInstance()->posNumX - 1), (Player::getInstance()->posNumY)) == false) 
+		    if (Map::getInstance()->map_data[block->posNumY][block->posNumX - 2] == ROAD || searchNum(block, (Player::getInstance()->posNumX - 1), (Player::getInstance()->posNumY)) == false) 
 			{
 				block->blockBack = 1;
 			}
 
-			if (block->blockFront == 0 && block->blockBack == 0) // どっちもダメ
-			{
-				block->blockState = 0;// Box動かない
-			}
 		}
 	}
 	else if (Player::getInstance()->drawState == 2)//PL左向き
@@ -294,7 +298,7 @@ void Block::update(Block* block,Block* zero)
 			{
 				block->blockFront = 0;// 前ダメ
 			}
-			else if (Map::getInstance()->map_data[block->posNumY][block->posNumX - 1] == ROAD && searchNum(block, (Player::getInstance()->posNumX - 2), (Player::getInstance()->posNumY)) == false)
+			if (Map::getInstance()->map_data[block->posNumY][block->posNumX - 1] == ROAD && searchNum(block, (Player::getInstance()->posNumX - 2), (Player::getInstance()->posNumY)) == false)
 			{
 				block->blockFront = 2;
 			}
@@ -302,15 +306,11 @@ void Block::update(Block* block,Block* zero)
 			{
 				block->blockBack = 0;// 後ろダメ
 			}
-			else if (Map::getInstance()->map_data[block->posNumY][block->posNumX + 2] == ROAD || searchNum(block, (Player::getInstance()->posNumX + 1), (Player::getInstance()->posNumY)) == false)
+			if (Map::getInstance()->map_data[block->posNumY][block->posNumX + 2] == ROAD || searchNum(block, (Player::getInstance()->posNumX + 1), (Player::getInstance()->posNumY)) == false)
 			{
 				block->blockBack = 2;
 			}
 
-			if (block->blockFront == 0 && block->blockBack == 0) // どっちもダメ
-			{
-				block->blockState = 0;// Box動かない
-			}
 		}
 	}
 	else if (Player::getInstance()->drawState == 3)//PL上
@@ -321,7 +321,7 @@ void Block::update(Block* block,Block* zero)
 			{
 				block->blockFront = 0;// 前ダメ
 			}
-			else if (Map::getInstance()->map_data[block->posNumY - 1][block->posNumX] == ROAD && searchNum(block, (Player::getInstance()->posNumX), (Player::getInstance()->posNumY - 2)) == false)
+			if (Map::getInstance()->map_data[block->posNumY - 1][block->posNumX] == ROAD && searchNum(block, (Player::getInstance()->posNumX), (Player::getInstance()->posNumY - 2)) == false)
 			{
 				block->blockFront = 3;
 			}
@@ -329,18 +329,14 @@ void Block::update(Block* block,Block* zero)
 			{
 				block->blockBack = 0;// 後ろダメ
 			}
-			else if (Map::getInstance()->map_data[block->posNumY + 2][block->posNumX] == ROAD || searchNum(block, (Player::getInstance()->posNumX), (Player::getInstance()->posNumY + 2)) == false)
+		    if (Map::getInstance()->map_data[block->posNumY + 2][block->posNumX] == ROAD || searchNum(block, (Player::getInstance()->posNumX), (Player::getInstance()->posNumY + 2)) == false)
 			{
 				block->blockBack = 3;
 			}
 
-			if (block->blockFront == 0 && block->blockBack == 0) // どっちもダメ
-			{
-				block->blockState = 0;// Box動かない
-			}
 		}
 	}
-	else if (Player::getInstance()->drawState == 4)//PL上
+	else if (Player::getInstance()->drawState == 4)//PL下
 	{
 		if ((Player::getInstance()->posNumY + 1 == block->posNumY) && (Player::getInstance()->posNumX == block->posNumX))
 		{
@@ -348,7 +344,7 @@ void Block::update(Block* block,Block* zero)
 			{
 				block->blockFront = 0;// 前ダメ
 			}
-			else if (Map::getInstance()->map_data[block->posNumY + 1][block->posNumX] == ROAD && searchNum(block, (Player::getInstance()->posNumX), (Player::getInstance()->posNumY + 2)) == false)
+		    if (Map::getInstance()->map_data[block->posNumY + 1][block->posNumX] == ROAD && searchNum(block, (Player::getInstance()->posNumX), (Player::getInstance()->posNumY + 2)) == false)
 			{
 				block->blockFront = 4;
 			}
@@ -356,17 +352,173 @@ void Block::update(Block* block,Block* zero)
 			{
 				block->blockBack = 0;// 後ろダメ
 			}
-			else if (Map::getInstance()->map_data[block->posNumY - 2][block->posNumX] == ROAD || searchNum(block, (Player::getInstance()->posNumX), (Player::getInstance()->posNumY - 1)) == false)
+			if (Map::getInstance()->map_data[block->posNumY - 2][block->posNumX] == ROAD || searchNum(block, (Player::getInstance()->posNumX), (Player::getInstance()->posNumY - 1)) == false)
 			{
 				block->blockBack = 4;
 			}
 
-			if (block->blockFront == 0 && block->blockBack == 0) // どっちもダメ
-			{
-				block->blockState = 0;// Box動かない
-			}
+			//if (block->blockFront == 0 && block->blockBack == 0) // どっちもダメ
+			//{
+			//	block->blockState = 0;// Box動かない
+			//}
 		}
 	}
+
+
+	if (Input::GetInstance()->GetKey(KEY_INPUT_Z))
+	{
+		block->flg = false;
+		if (Player::getInstance()->drawState == 1)//PL右向き
+		{
+			if (Input::GetInstance()->GetKeyDown(KEY_INPUT_RIGHT) && (block->blockFront == 1))
+			{
+				block->blockState = 1;
+			}
+			/*else if (Input::GetInstance()->GetKey(KEY_INPUT_RIGHT) && (block->blockFront == 1))
+			{
+				block->blockState = 1;
+			}*/
+			else if (Input::GetInstance()->GetKeyDown(KEY_INPUT_LEFT) && (block->blockBack == 1))
+			{
+				block->blockState = 2;
+			}
+			/*else if (Input::GetInstance()->GetKey(KEY_INPUT_LEFT) && (block->blockBack == 1))
+			{
+				block->blockState = 2;
+			}*/
+
+		}
+		else if (Player::getInstance()->drawState == 2)//PL左向き
+		{
+			if (Input::GetInstance()->GetKeyDown(KEY_INPUT_LEFT) && (block->blockFront == 2))
+			{
+				block->blockState = 2;
+			}
+			/*else if (Input::GetInstance()->GetKey(KEY_INPUT_LEFT) && (block->blockFront == 2))
+			{
+				block->blockState = 2;
+			}*/
+			else if (Input::GetInstance()->GetKeyDown(KEY_INPUT_RIGHT) && (block->blockBack == 2))
+			{
+				block->blockState = 1;
+			}
+			/*else if (Input::GetInstance()->GetKey(KEY_INPUT_RIGHT) && (block->blockBack == 2))
+			{
+				block->blockState = 1;
+			}*/
+
+		}
+		else if (Player::getInstance()->drawState == 3)//PL上
+		{
+			if (Input::GetInstance()->GetKeyDown(KEY_INPUT_UP) && (block->blockFront == 3))
+			{
+				block->blockState = 3;
+			}
+			/*else if (Input::GetInstance()->GetKey(KEY_INPUT_UP) && (block->blockFront == 3))
+			{
+				block->blockState = 3;
+			}*/
+			else if (Input::GetInstance()->GetKeyDown(KEY_INPUT_DOWN) && (block->blockBack == 3))
+			{
+				block->blockState = 4;
+			}
+			/*else if (Input::GetInstance()->GetKey(KEY_INPUT_DOWN) && (block->blockBack == 3))
+			{
+				block->blockState = 4;
+			}*/
+
+		}
+		else if (Player::getInstance()->drawState == 4)//PL下
+		{
+			if (Input::GetInstance()->GetKeyDown(KEY_INPUT_DOWN) && (block->blockFront == 4))
+			{
+				block->blockState = 4;
+			}
+			/*else if (Input::GetInstance()->GetKey(KEY_INPUT_DOWN) && (block->blockFront == 4))
+			{
+				block->blockState = 4;
+			}*/
+			else if (Input::GetInstance()->GetKeyDown(KEY_INPUT_UP) && (block->blockBack == 4))
+			{
+				block->blockState = 3;
+			}
+			/*else if (Input::GetInstance()->GetKey(KEY_INPUT_UP) && (block->blockBack == 4))
+			{
+				block->blockState = 3;
+			}*/
+		}
+
+	}
+	else
+	{
+		block->flg = true;
+		block->blockState = 0;
+	}
+
+
+
+
+	switch (block->blockState)
+	{
+	case 1:
+		block->posX += 3;
+
+		if (block->posX == 48)
+		{
+			block->blockState = 0;
+			block->posX = 0;
+			block->posNumX++;
+			block->blockBack = 0;
+			block->blockFront = 0;
+
+		}
+		break;
+
+	case 2:
+		block->posX -= 3;
+
+		if (block->posX == -48)
+		{
+			block->blockState = 0;
+			block->posX = 0;
+			block->posNumX--;
+			block->blockBack = 0;
+			block->blockFront = 0;
+
+		}
+		break;
+
+	case 3:
+		block->posY -= 3;
+
+		if (block->posY == -48)
+		{
+			block->blockState = 0;
+			block->posY = 0;
+			block->posNumY--;
+			block->blockBack = 0;
+			block->blockFront = 0;
+
+		}
+		break;
+
+	case 4:
+		block->posY += 3;
+
+		if (block->posY == 48)
+		{
+			block->blockState = 0;
+			block->posY = 0;
+			block->posNumY++;
+			block->blockBack = 0;
+			block->blockFront = 0;
+
+		}
+		break;
+
+	}
+
+
 
 	//// 隣接していて、かつ壁・プレイヤー・岩でないなら
 	//if ((Player::getInstance()->posNumY == block->posNumY) && (Player::getInstance()->posNumX + 1 == block->posNumX)&& (Map::getInstance()->map_data[block->posNumY][block->posNumX - 2] != ROAD))
