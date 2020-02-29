@@ -22,6 +22,8 @@ void initLiquid();
 void initField();
 void searchRoute();
 void countPoison();
+void meltBreakable();
+void breakAnimation(int break_handle);
 void spreadWave(int handle);
 void drawWave(int handle);
 void drawPoison(int handle);

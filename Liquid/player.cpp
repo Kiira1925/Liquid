@@ -183,7 +183,11 @@ void Player::update2(Block* block)
 void Player::draw() 
 {   //実際の描画位置+(チップサイズ×何番目のチップか)＋追加する座標[yは飛び出た分の24を足す],,画像サイズ×画像のState,,描画サイズ,,
 	DrawRectGraph(rel_posX + (CHIP_SIZE * posNumX)+posX , rel_posY + (CHIP_SIZE * posNumY)+posY -24, width*aniState, height * drawState, width, height, handle, true, false);
+}
 
+void Player::drawHead()
+{
+	DrawRectGraph(rel_posX + (CHIP_SIZE * posNumX) + posX, rel_posY + (CHIP_SIZE * posNumY) + posY - 24, width * aniState, height * drawState, width, height-48, handle, true, false);
 }
 
 void Player::end() 
@@ -194,7 +198,7 @@ void Player::end()
 
 void Block::init(Block* block,int x,int y) 
 {
-	block->handle = LoadGraph("Data\\Images\\block.png");
+	block->handle = LoadGraph("Data\\Images\\mapasset.png");
 
 	block->posX = 0;  // 移動の増加量
 	block->posY = 0;
@@ -203,7 +207,7 @@ void Block::init(Block* block,int x,int y)
 	block->rel_posY = 0;
 
 	block->width = 48;      // 画像サイズ
-	block->height = 72;
+	block->height = 70;
 
 	block->timer = 0;       // タイマー
 	block->state = 0;       // キー入力の種類(0:無し1:右2:左3:上4:下)
@@ -411,7 +415,7 @@ void Block::update(Block* block)
 void Block::draw(Block* block) 
 {
 	//実際の描画位置+(チップサイズ×何番目のチップか)＋追加する座標[yは飛び出た分の24を足す],,画像サイズ×画像のState,,描画サイズ,,
-	DrawRectGraph(block->rel_posX + (CHIP_SIZE * block->posNumX) + block->posX, block->rel_posY + (CHIP_SIZE * block->posNumY) + block->posY - 24, block->width * block->aniState, block->height * block->drawState, block->width, block->height, block->handle, true, false);
+	DrawRectGraph(block->rel_posX + (CHIP_SIZE * block->posNumX) + block->posX, block->rel_posY + (CHIP_SIZE * block->posNumY) + block->posY - 22, 0, CHIP_SIZE * 4, block->width, block->height, block->handle, true, false);
 
 }
 

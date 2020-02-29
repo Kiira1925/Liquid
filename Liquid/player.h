@@ -64,6 +64,8 @@ public:
     void end();
     void update2(Block* block);
 
+    void drawHead();
+
     int timer;
     int drawState;
     int aniState;

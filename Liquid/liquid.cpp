@@ -33,6 +33,11 @@ bool exist_wave;
 int poison_aniTimer;
 //泡の座標
 Pair bubble_pos[3];
+//崩壊アニメーション用変数
+Pair breakPoint[5];
+bool nowBreaking[5];
+int breakAnimeTimer[5];
+
 
 
 void initLiquid()
@@ -65,7 +70,7 @@ void initLiquid()
 			//}
 		}
 	}
-	liquid_max = 8;
+	liquid_max = 120;
 	poison_aniTimer = 0;
 }
 
@@ -136,9 +141,61 @@ void searchRoute()
 	}
 }
 
+void meltBreakable()
+{
+	for (int Ver = 0; Ver < MAPDATA_V_MAX; Ver++)
+	{
+		for (int Hor = 0; Hor < MAPDATA_H_MAX; Hor++)
+		{
+			 //崩れる壁を発見時
+			if (Map::getInstance()->map_data[Ver][Hor] == 3)
+			{
+				//隣接するブロックに水が存在する場合
+				if (Liquid[Ver - 1][Hor] == 1 || Liquid[Ver + 1][Hor] == 1 || Liquid[Ver][Hor - 1] == 1 || Liquid[Ver][Hor + 1] == 1)
+				{
+					Map::getInstance()->map_data[Ver][Hor] = 1;
+					for (int i = 0; i < 5; i++)
+					{
+						if (nowBreaking[i] == false)
+						{
+							nowBreaking[i] = true;
+							breakPoint[i] = { Ver,Hor };
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+void breakAnimation(int break_handle)
+{
+	for (int i = 0; i < 5; i++)
+	{
+		if (nowBreaking[i] == true)
+		{
+			DrawRectGraph(breakPoint[i].second*CHIP_SIZE+420, breakPoint[i].first*CHIP_SIZE-26, (breakAnimeTimer[i]%40/8) * CHIP_SIZE, 0, 48, 74, break_handle, TRUE);
+			breakAnimeTimer[i]++;
+			if (breakAnimeTimer[i] >= 40)
+			{
+				nowBreaking[i] = false;
+				breakAnimeTimer[i] = 0;
+			}
+		}
+	}
+}
+
 void spreadWave(int handle)
 {
 	exist_wave = false;
+
+	if (liquid_count >= liquid_max)
+	{
+		initField();
+		return;
+	}
+
 	if (stream_max == 0) { stream_max = Count[goalPos.first][goalPos.second]; }
 	if(stream_count < stream_max)
 	{
@@ -155,7 +212,7 @@ void spreadWave(int handle)
 	if (stream_count == stream_max)
 	{
 		Liquid[route[stream_count].first][route[stream_count].second] = 1;
-		liquid_max--;
+		stream_max--;
 		initField();
 	}
 	
@@ -177,6 +234,8 @@ void drawPoison(int handle)
 {
 	poison_aniTimer++;
 	int anime_frame = poison_aniTimer%48/8;
+	int anime_frame2 = (poison_aniTimer - 16) % 48 / 8;
+	int anime_frame3 = (poison_aniTimer - 24) % 48 / 8;
 	int bubble_timer = poison_aniTimer % 48;
 	bool exist_poison = false;
 	for (int Ver = 0; Ver < MAPDATA_V_MAX; Ver++)
@@ -256,18 +315,24 @@ void drawPoison(int handle)
 			{
 				bubble_pos[0] = { GetRand(21), GetRand(21) };
 			} while (Liquid[bubble_pos[0].first][bubble_pos[0].second] != 1);
+		}
+		if (bubble_timer == 12)
+		{
 			do
 			{
 				bubble_pos[1] = { GetRand(21), GetRand(21) };
 			} while (Liquid[bubble_pos[1].first][bubble_pos[1].second] != 1);
+		}
+		if (bubble_timer == 24)
+		{
 			do
 			{
 				bubble_pos[2] = { GetRand(21), GetRand(21) };
 			} while (Liquid[bubble_pos[2].first][bubble_pos[2].second] != 1);
 		}
 		DrawRectGraph(bubble_pos[0].second * CHIP_SIZE + 420, bubble_pos[0].first * CHIP_SIZE, CHIP_SIZE * anime_frame, CHIP_SIZE * 14, CHIP_SIZE, CHIP_SIZE, handle, TRUE);
-		DrawRectGraph(bubble_pos[1].second * CHIP_SIZE + 420, bubble_pos[1].first * CHIP_SIZE, CHIP_SIZE * anime_frame, CHIP_SIZE * 14, CHIP_SIZE, CHIP_SIZE, handle, TRUE);
-		DrawRectGraph(bubble_pos[2].second * CHIP_SIZE + 420, bubble_pos[2].first * CHIP_SIZE, CHIP_SIZE * anime_frame, CHIP_SIZE * 14, CHIP_SIZE, CHIP_SIZE, handle, TRUE);
+		DrawRectGraph(bubble_pos[1].second * CHIP_SIZE + 420, bubble_pos[1].first * CHIP_SIZE, CHIP_SIZE * anime_frame2, CHIP_SIZE * 14, CHIP_SIZE, CHIP_SIZE, handle, TRUE);
+		DrawRectGraph(bubble_pos[2].second * CHIP_SIZE + 420, bubble_pos[2].first * CHIP_SIZE, CHIP_SIZE * anime_frame3, CHIP_SIZE * 14, CHIP_SIZE, CHIP_SIZE, handle, TRUE);
 	}
 }
 

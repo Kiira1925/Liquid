@@ -34,6 +34,7 @@ Scene_State     state;
 
 Block blocks[BL_MAX];
 int poison_hanlde;
+int break_handle;
 
 //
 // ’è‹`‚±‚±‚Ü‚Å
@@ -179,6 +180,7 @@ void Scene_Game::init(void)
     }
 
     poison_hanlde = LoadGraph("Data\\Images\\poisonasset.png");
+    break_handle = LoadGraph("Data\\Images\\breaking.png");
     initLiquid();
 }
 
@@ -240,6 +242,7 @@ void Scene_Game::update(int GameTime)
     countPoison();
     BFS();
     spreadWave(poison_hanlde);
+    meltBreakable();
 }
 
 // ƒQ[ƒ€•`‰æˆ—
@@ -248,10 +251,10 @@ void Scene_Game::draw(int GameTime)
     game_bg.draw(&game_bg);
     map.draw();
     drawPoison(poison_hanlde);
-    map.drawBreakable();
-    map.drawSpring();
     drawWave(poison_hanlde);
     Player::getInstance()->draw();
+    map.drawBreakable();
+    map.drawSpring();
     switch (Stage_Select::getInstance()->reNum())
     {
     case 1:
@@ -299,7 +302,8 @@ void Scene_Game::draw(int GameTime)
         blocks[1].draw(&blocks[1]);
         break;
     }
-
+    breakAnimation(break_handle);
+    Player::getInstance()->drawHead();
 
     sys.drawDebugString();      // debug
 }
