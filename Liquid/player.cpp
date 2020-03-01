@@ -173,28 +173,28 @@ void Player::update2(Block* block, int* temp_block_state)
 	if (state == 0)
 	{
 
-		if (Input::GetInstance()->GetKey(KEY_INPUT_RIGHT))
+		if (Input::GetInstance()->GetKeyDown(KEY_INPUT_RIGHT))
 		{
 			if (block->flg == true) {
 				drawState = 1;
 			}
 			state = 1;
 		}
-		else if (Input::GetInstance()->GetKey(KEY_INPUT_LEFT))
+		else if (Input::GetInstance()->GetKeyDown(KEY_INPUT_LEFT))
 		{
 			if (block->flg == true) {
 				drawState = 2;
 			}
 			state = 2;
 		}
-		else if (Input::GetInstance()->GetKey(KEY_INPUT_UP))
+		else if (Input::GetInstance()->GetKeyDown(KEY_INPUT_UP))
 		{
 			if (block->flg == true) {
 				drawState = 3;
 			}
 			state = 3;
 		}
-		else if (Input::GetInstance()->GetKey(KEY_INPUT_DOWN))
+		else if (Input::GetInstance()->GetKeyDown(KEY_INPUT_DOWN))
 		{
 			if (block->flg == true) {
 				drawState = 4;
@@ -374,10 +374,10 @@ void Block::update(Block* block,Block* zero)
 			{
 				block->blockState = 1;
 			}
-			/*else if (Input::GetInstance()->GetKey(KEY_INPUT_RIGHT) && (block->blockFront == 1))
-			{
-				block->blockState = 1;
-			}*/
+			//else if (Input::GetInstance()->GetKey(KEY_INPUT_RIGHT) && (block->blockFront == 1))
+			//{
+			//	block->blockState = 1;
+			//}
 			else if (Input::GetInstance()->GetKeyDown(KEY_INPUT_LEFT) && (block->blockBack == 1))
 			{
 				block->blockState = 2;
