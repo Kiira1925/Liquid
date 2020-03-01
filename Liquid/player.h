@@ -65,6 +65,7 @@ public:
     void update2(Block* block);
 
     void drawHead();
+    void goalCheck(boolean* isGoal);
 
     int timer;
     int drawState;

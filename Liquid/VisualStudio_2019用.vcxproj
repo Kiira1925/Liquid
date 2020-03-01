@@ -165,6 +165,7 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="scene_choice.cpp" />
     <ClCompile Include="scene_game.cpp" />
+    <ClCompile Include="scene_stageLoad.cpp" />
     <ClCompile Include="scene_title.cpp" />
     <ClCompile Include="system.cpp" />
   </ItemGroup>
@@ -178,6 +179,7 @@
     <ClInclude Include="map.h" />
     <ClInclude Include="relative.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="scene_stageLoad.h" />
     <ClInclude Include="singleton.h" />
     <ClInclude Include="scene_choice.h" />
     <ClInclude Include="scene_game.h" />

@@ -158,6 +158,7 @@ void meltBreakable()
 				if (Liquid[Ver - 1][Hor] == 1 || Liquid[Ver + 1][Hor] == 1 || Liquid[Ver][Hor - 1] == 1 || Liquid[Ver][Hor + 1] == 1)
 				{
 					Map::getInstance()->map_data[Ver][Hor] = 1;
+					Liquid[Ver][Hor] = 0;
 					for (int i = 0; i < 5; i++)
 					{
 						if (nowBreaking[i] == false)

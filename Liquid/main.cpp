@@ -11,6 +11,7 @@
 #include "relative.h"
 #include "player.h"
 #include "liquid.h"
+#include "easing.h"
 
 //////////////////////////////////////////////////////////////////////////
 //	各ゲームで使用するクラスインスタンスやグローバル変数はここに記述
@@ -35,6 +36,15 @@ Scene_State     state;
 Block blocks[BL_MAX];
 int poison_hanlde;
 int break_handle;
+int BB_handle;
+
+//ステージ切り替え演出用変数
+boolean isGoal;
+int goal_performance_tiemr;
+float easeExpo;
+float transparency_amount;
+int text_back_handle;
+int clear_handle;
 
 //
 // 定義ここまで
@@ -125,9 +135,12 @@ void Scene_Choice::end(void)
 // ゲーム初期化処理
 void Scene_Game::init(void)
 {
+    isGoal = false;
+    goal_performance_tiemr = 0;
+    transparency_amount = 255;
     game_bg.init(&game_bg);
-    //map.init(Stage_Select::getInstance()->reNum());
-    map.init(0);
+    map.init(Stage_Select::getInstance()->reNum());
+    //map.init(0);
     initField();
     Player::getInstance()->init();
 
@@ -181,6 +194,8 @@ void Scene_Game::init(void)
 
     poison_hanlde = LoadGraph("Data\\Images\\poisonasset.png");
     break_handle = LoadGraph("Data\\Images\\breaking.png");
+    text_back_handle = LoadGraph("Data\\Images\\word_back.png");
+    clear_handle = LoadGraph("Data\\Images\\stage_clear.png");
     initLiquid();
 }
 
@@ -190,53 +205,56 @@ void Scene_Game::update(int GameTime)
     relative.cal_relative_pos();
     game_bg.update(&game_bg);
     map.update();
-    Player::getInstance()->update2(&blocks[0]);
-    switch (Stage_Select::getInstance()->reNum()) 
+    if (isGoal == false)
     {
-    case 1:
-        blocks[0].update(&blocks[0]);
-        blocks[1].update(&blocks[1]);
-        break;
+        Player::getInstance()->update2(&blocks[0]);
+        switch (Stage_Select::getInstance()->reNum())
+        {
+        case 1:
+            blocks[0].update(&blocks[0]);
+            blocks[1].update(&blocks[1]);
+            break;
 
-    case 2:
-        blocks[0].update(&blocks[0]);
-        blocks[1].update(&blocks[1]);
-        break;
+        case 2:
+            blocks[0].update(&blocks[0]);
+            blocks[1].update(&blocks[1]);
+            break;
 
-    case 3:
-        blocks[0].update(&blocks[0]);
-        blocks[1].update(&blocks[1]);
-        break;
+        case 3:
+            blocks[0].update(&blocks[0]);
+            blocks[1].update(&blocks[1]);
+            break;
 
-    case 4:
-        blocks[0].update(&blocks[0]);
-        blocks[1].update(&blocks[1]);
-        break;
+        case 4:
+            blocks[0].update(&blocks[0]);
+            blocks[1].update(&blocks[1]);
+            break;
 
-    case 5:
-        blocks[0].update(&blocks[0]);
-        blocks[1].update(&blocks[1]);
-        break;
+        case 5:
+            blocks[0].update(&blocks[0]);
+            blocks[1].update(&blocks[1]);
+            break;
 
-    case 6:
-        blocks[0].update(&blocks[0]);
-        blocks[1].update(&blocks[1]);
-        break;
+        case 6:
+            blocks[0].update(&blocks[0]);
+            blocks[1].update(&blocks[1]);
+            break;
 
-    case 7:
-        blocks[0].update(&blocks[0]);
-        blocks[1].update(&blocks[1]);
-        break;
+        case 7:
+            blocks[0].update(&blocks[0]);
+            blocks[1].update(&blocks[1]);
+            break;
 
-    case 8:
-        blocks[0].update(&blocks[0]);
-        blocks[1].update(&blocks[1]);
-        break;
+        case 8:
+            blocks[0].update(&blocks[0]);
+            blocks[1].update(&blocks[1]);
+            break;
 
-    case 9:
-        blocks[0].update(&blocks[0]);
-        blocks[1].update(&blocks[1]);
-        break;
+        case 9:
+            blocks[0].update(&blocks[0]);
+            blocks[1].update(&blocks[1]);
+            break;
+        }
     }
     game_conduct.updateDebug(&game_conduct, &usable);   // debug
     countPoison();
@@ -245,6 +263,18 @@ void Scene_Game::update(int GameTime)
     meltBreakable();
     BFS_FILL();
     deleteLiquid(&blocks[0]);
+    Player::getInstance()->goalCheck(&isGoal);
+
+    if (isGoal)
+    {
+        goal_performance_tiemr++;
+        DrawRotaGraph3F(0, 0, 0, 0, 1, 1, 0, text_back_handle, TRUE);
+        if (goal_performance_tiemr > 120)
+        {
+            Stage_Select::getInstance()->numStage++;
+            usable.changeSceneStateInit(Game);
+        }
+    }
 }
 
 // ゲーム描画処理
@@ -307,6 +337,27 @@ void Scene_Game::draw(int GameTime)
     breakAnimation(break_handle);
     Player::getInstance()->drawHead();
 
+    if (isGoal)
+    {
+        SetDrawBlendMode(DX_BLENDMODE_ALPHA, transparency_amount);
+        DrawRotaGraph3F(0, 0, 0, 0, 1, 1, 0, text_back_handle, TRUE);
+        SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 255);
+        if (goal_performance_tiemr <= 60)
+        {
+            easeExpo = Expo::easeOut(goal_performance_tiemr, 0, 1, 60);
+            DrawRotaGraph3F((easeExpo * 1920) - 1920, 0, 0, 0, 1, 1, 0, clear_handle, TRUE);
+        }
+        if (goal_performance_tiemr > 60)
+        {
+            easeExpo = Expo::easeIn(goal_performance_tiemr - 60, 0, 1, 60);
+            DrawRotaGraph3F((easeExpo * 1920), 0, 0, 0, 1, 1, 0, clear_handle, TRUE);
+        }
+        if (goal_performance_tiemr > 80)
+        {
+            transparency_amount = 255 - ((goal_performance_tiemr - 80) * (255 / 30));
+        }
+
+    }
     sys.drawDebugString();      // debug
 }
 

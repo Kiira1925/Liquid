@@ -40,7 +40,7 @@ void Choice_Conduct::updateDebug(Choice_Conduct* choice_conduct, Usable* usable)
 void Stage_Select::init() 
 {
     handle = LoadGraph("Data\\Images\\select1.png");
-    numStage = 0;
+    Stage_Select::getInstance()->numStage = 0;
     timer = 0;
     flg = 0;
     ease = 0.0f;
@@ -52,7 +52,7 @@ void Stage_Select::update()
  
 
     if (flg == 0) {
-        switch (numStage)
+        switch (Stage_Select::getInstance()->numStage)
         {
         case 0:
             // ‰E‚Éi‚Ş ----------------------------------------------------
@@ -269,12 +269,12 @@ void Stage_Select::update()
         {
             easePosX = 0;
             flg = 0;
-            numStage++;
+            Stage_Select::getInstance()->numStage++;
             timer = 0;
             ease = 0;
-            if (numStage == 9)
+            if (Stage_Select::getInstance()->numStage == 9)
             {
-                numStage = 0;
+                Stage_Select::getInstance()->numStage = 0;
             }
         }
     }
@@ -287,12 +287,12 @@ void Stage_Select::update()
         {
             easePosX = 0;
             flg = 0;
-            numStage--;
+            Stage_Select::getInstance()->numStage--;
             timer = 0;
             ease = 0;
-            if (numStage == -1)
+            if (Stage_Select::getInstance()->numStage == -1)
             {
-                numStage = 8;
+                Stage_Select::getInstance()->numStage = 8;
             }
         }
     }
@@ -303,9 +303,9 @@ void Stage_Select::draw()
     //DrawRectGraph(stage_select->posX - stage_select->sizeX, 0, stage_select->sizeX * ((stage_select->numStage - 1) % 3), stage_select->sizeY * ((stage_select->numStage - 1) / 3), stage_select->sizeX, stage_select->sizeY, stage_select->handle, true, false);
     //DrawRectGraph(posX, 0, stage_select->sizeX * (stage_select->numStage % 3), stage_select->sizeY * (stage_select->numStage / 3), stage_select->sizeX, stage_select->sizeY, stage_select->handle, true, false);
     //DrawRectGraph(stage_select->posX + stage_select->sizeX, 0, stage_select->sizeX * ((stage_select->numStage + 1) % 3), stage_select->sizeY * ((stage_select->numStage + 1) / 3), stage_select->sizeX, stage_select->sizeY, stage_select->handle, true, false);
-     DrawRectGraph(0, 0, (sizeX)*(numStage+1) + easePosX, sizeY*0, sizeX, sizeY, handle, true, false);
+     DrawRectGraph(0, 0, (sizeX)*(Stage_Select::getInstance()->numStage+1) + easePosX, sizeY*0, sizeX, sizeY, handle, true, false);
      DrawFormatString(0, 80, GetColor(0, 0, 0), "%f", ease);
-     DrawFormatString(0, 100, GetColor(0, 0, 0), "%d", numStage);
+     DrawFormatString(0, 100, GetColor(0, 0, 0), "%d", Stage_Select::getInstance()->numStage);
 }
 
 void Stage_Select::end()
@@ -315,6 +315,6 @@ void Stage_Select::end()
 
 int Stage_Select::reNum() 
 {
-    int num = numStage + 1;
+    int num = Stage_Select::getInstance()->numStage + 1;
     return  num;
 }

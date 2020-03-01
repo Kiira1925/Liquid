@@ -5,7 +5,6 @@
 #include "scene_choice.h"
 
 
-
 #include "DxLib.h"
 
 extern Block blocks[BL_MAX];
@@ -95,7 +94,7 @@ void Player::update2(Block* block)
 	{
 	case 1:
 		// Right
-		if (Map::getInstance()->map_data[posNumY][posNumX + 1] == ROAD && blockState != 1) {
+		if ((Map::getInstance()->map_data[posNumY][posNumX + 1] == ROAD || Map::getInstance()->map_data[posNumY][posNumX + 1] == DOOR) && blockState != 1) {
 			posX += 3;
 			if (posX % 12 == 0)
 			{
@@ -116,7 +115,7 @@ void Player::update2(Block* block)
 
 	case 2:
 		// Left
-		if (Map::getInstance()->map_data[posNumY][posNumX - 1] == ROAD && blockState != 2) {
+		if ((Map::getInstance()->map_data[posNumY][posNumX - 1] == ROAD || Map::getInstance()->map_data[posNumY][posNumX - 1] == DOOR) && blockState != 2) {
 			posX -= 3;
 			if (posX % 12 == 0)
 			{
@@ -137,7 +136,7 @@ void Player::update2(Block* block)
 
 	case 3:
 		// Up
-		if (Map::getInstance()->map_data[posNumY - 1][posNumX] == ROAD && blockState != 3) {
+		if ((Map::getInstance()->map_data[posNumY - 1][posNumX] == ROAD || Map::getInstance()->map_data[posNumY - 1][posNumX] == DOOR) && blockState != 3) {
 			posY -= 3;
 			if (posY % 12 == 0)
 			{
@@ -158,7 +157,7 @@ void Player::update2(Block* block)
 
 	case 4:
 		// Down
-		if (Map::getInstance()->map_data[posNumY + 1][posNumX] == ROAD && blockState != 4) {
+		if ((Map::getInstance()->map_data[posNumY + 1][posNumX] == ROAD || Map::getInstance()->map_data[posNumY + 1][posNumX] == DOOR) && blockState != 4) {
 			posY += 3;
 			if (posY % 12 == 0)
 			{
@@ -188,6 +187,27 @@ void Player::draw()
 void Player::drawHead()
 {
 	DrawRectGraph(rel_posX + (CHIP_SIZE * posNumX) + posX, rel_posY + (CHIP_SIZE * posNumY) + posY - 24, width * aniState, height * drawState, width, height-48, handle, true, false);
+}
+
+void Player::goalCheck(boolean* isGoal)
+{
+	int goalY;
+	int goalX;
+	for (int Ver = 0; Ver < MAPDATA_V_MAX; Ver++)
+	{
+		for (int Hor = 0; Hor < MAPDATA_H_MAX; Hor++)
+		{
+			if (Map::getInstance()->map_data[Ver][Hor] == 4)
+			{
+				goalY = Ver;
+				goalX = Hor;
+			}
+		}
+	}
+	if (posNumY == goalY && posNumX == goalX)
+	{
+		*isGoal = true;
+	}
 }
 
 void Player::end() 
