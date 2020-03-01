@@ -23,7 +23,7 @@ void initLiquid();
 void initField();
 void searchRoute();
 void countPoison();
-void meltBreakable();
+void meltBreakable(int* melt_sound);
 void breakAnimation(int break_handle);
 void spreadWave(int handle);
 void drawWave(int handle);

@@ -46,3 +46,6 @@ private:
     int sizeX = 1920;
     int sizeY = 1080;
 };
+
+// プロトタイプ宣言 --------------------------------------------------------
+void BlackOut(int* BB_handle, int* BB_timer, Usable* usable);

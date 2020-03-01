@@ -37,6 +37,8 @@ Block blocks[BL_MAX];
 int poison_hanlde;
 int break_handle;
 int BB_handle;
+int BB_timer;
+int BB_flag;
 
 //ステージ切り替え演出用変数
 boolean isGoal;
@@ -45,6 +47,10 @@ float easeExpo;
 float transparency_amount;
 int text_back_handle;
 int clear_handle;
+
+//サウンドハンドル
+int melt_sound;
+int goal_sound;
 
 //
 // 定義ここまで
@@ -94,6 +100,9 @@ void Scene_Choice::init(void)
 {
     choice_bg.init(&choice_bg);
     Stage_Select::getInstance()->init();
+    BB_handle = LoadGraph("Data\\Images\\BB.png");
+    BB_timer = 0;
+    BB_flag = false;
 }
 
 // ステージ選択更新処理
@@ -102,6 +111,7 @@ void Scene_Choice::update(int GameTime)
     choice_bg.update(&choice_bg);
 
     Stage_Select::getInstance()->update();
+    if (Input::GetInstance()->GetKey(KEY_INPUT_RETURN) && Stage_Select::getInstance()->flg == 0) { BB_flag = true; }
 
     choice_conduct.updateDebug(&choice_conduct, &usable);   // debug
 }
@@ -112,6 +122,10 @@ void Scene_Choice::draw(int GameTime)
     choice_bg.draw(&choice_bg);
 
     Stage_Select::getInstance()->draw();
+    if (BB_flag)
+    {
+        BlackOut(&BB_handle, &BB_timer, &usable);
+    }
 
     sys.drawDebugString();              // debug
 }
@@ -135,6 +149,8 @@ void Scene_Choice::end(void)
 // ゲーム初期化処理
 void Scene_Game::init(void)
 {
+    melt_sound = LoadSoundMem("Data\\Sounds\\melt.wav");
+    goal_sound = LoadSoundMem("Data\\Sounds\\goal.mp3");
     isGoal = false;
     goal_performance_tiemr = 0;
     transparency_amount = 255;
@@ -152,8 +168,8 @@ void Scene_Game::init(void)
         break;
 
     case 2:
-        blocks[0].init(&blocks[0],0,0);
-        blocks[1].init(&blocks[1], 0, 0);
+        blocks[0].init(&blocks[0],7,8);
+        blocks[1].init(&blocks[1], 7, 10);
         break;
 
     case 3:
@@ -260,13 +276,17 @@ void Scene_Game::update(int GameTime)
     countPoison();
     BFS();
     spreadWave(poison_hanlde);
-    meltBreakable();
+    meltBreakable(&melt_sound);
     BFS_FILL();
     deleteLiquid(&blocks[0]);
     Player::getInstance()->goalCheck(&isGoal);
 
     if (isGoal)
     {
+        if (!CheckSoundMem(goal_sound))
+        {
+            PlaySoundMem(goal_sound, DX_PLAYTYPE_BACK);
+        }
         goal_performance_tiemr++;
         DrawRotaGraph3F(0, 0, 0, 0, 1, 1, 0, text_back_handle, TRUE);
         if (goal_performance_tiemr > 120)

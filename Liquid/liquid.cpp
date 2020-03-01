@@ -145,7 +145,7 @@ void searchRoute()
 	}
 }
 
-void meltBreakable()
+void meltBreakable(int* melt_sound)
 {
 	for (int Ver = 0; Ver < MAPDATA_V_MAX; Ver++)
 	{
@@ -165,6 +165,7 @@ void meltBreakable()
 						{
 							nowBreaking[i] = true;
 							breakPoint[i] = { Ver,Hor };
+							PlaySoundMem(*melt_sound, DX_PLAYTYPE_BACK);
 							break;
 						}
 					}

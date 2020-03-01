@@ -8,6 +8,7 @@
 #include "singleton.h"
 
 // ŠÖ” ----------------------------------------------------------------------------------------
+
 void Choice_Bg::init(Choice_Bg* choice_bg)
 {
     choice_bg->handle = LoadGraph("Data\\Images\\Choice_Bg.png");
@@ -27,13 +28,25 @@ void Choice_Bg::end(Choice_Bg* choice_bg)
     DeleteGraph(choice_bg->handle);
 }
 
+void BlackOut(int* BB_handle,int* BB_timer, Usable* usable)
+{
+    *(BB_timer)+=1;
+    SetDrawBlendMode(DX_BLENDMODE_ALPHA, (*(BB_timer) * 3));
+    DrawGraph(0, 0, *(BB_handle), TRUE);
+    SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
+    if (*(BB_timer) > 85)
+    {
+        usable->changeSceneStateInit(Game);
+    }
+}
+
 void Choice_Conduct::updateDebug(Choice_Conduct* choice_conduct, Usable* usable)
 {
     if (Input::GetInstance()->GetKeyDown(KEY_INPUT_1)) usable->changeSceneStateInit(Title);
     if (Input::GetInstance()->GetKeyDown(KEY_INPUT_2)) usable->changeSceneStateInit(Choice);
     if (Input::GetInstance()->GetKeyDown(KEY_INPUT_3)) usable->changeSceneStateInit(Game);
     if (Stage_Select::getInstance()->flg == 0) {
-        if (Input::GetInstance()->GetKey(KEY_INPUT_RETURN)) { usable->changeSceneStateInit(Game); }
+        //if (Input::GetInstance()->GetKey(KEY_INPUT_RETURN)) { BlackOut(BB_handle); } //usable->changeSceneStateInit(Game);
     }
 }
 
@@ -42,7 +55,7 @@ void Stage_Select::init()
     handle = LoadGraph("Data\\Images\\select1.png");
     Stage_Select::getInstance()->numStage = 0;
     timer = 0;
-    flg = 0;
+    Stage_Select::getInstance()->flg = 0;
     ease = 0.0f;
     easePosX = 0.0f;
 }
@@ -51,30 +64,30 @@ void Stage_Select::update()
 {
  
 
-    if (flg == 0) {
+    if (Stage_Select::getInstance()->flg == 0) {
         switch (Stage_Select::getInstance()->numStage)
         {
         case 0:
             // ‰E‚Éi‚Ş ----------------------------------------------------
             if (Input::GetInstance()->GetKeyDown(KEY_INPUT_RIGHT))
             {
-                flg = 1;
+                Stage_Select::getInstance()->flg = 1;
             }
             else {
                 if (Input::GetInstance()->GetKey(KEY_INPUT_RIGHT))
                 {
-                    flg = 1;
+                    Stage_Select::getInstance()->flg = 1;
                 }
             }
 
             // ¶‚Éi‚Ş --------------------------------------------------
             if (Input::GetInstance()->GetKeyDown(KEY_INPUT_LEFT))
             {
-                flg = 2;
+                Stage_Select::getInstance()->flg = 2;
             }
             else {
                 if (Input::GetInstance()->GetKey(KEY_INPUT_LEFT)) {
-                    flg = 2;
+                    Stage_Select::getInstance()->flg = 2;
                 }
             }
 
@@ -82,21 +95,21 @@ void Stage_Select::update()
         case 1:
             if (Input::GetInstance()->GetKeyDown(KEY_INPUT_RIGHT))
             {
-                flg = 1;
+                Stage_Select::getInstance()->flg = 1;
             }
             else {
                 if (Input::GetInstance()->GetKey(KEY_INPUT_RIGHT)) {
-                    flg = 1;
+                    Stage_Select::getInstance()->flg = 1;
                 }
             }
 
             if (Input::GetInstance()->GetKeyDown(KEY_INPUT_LEFT))
             {
-                flg = 2;
+                Stage_Select::getInstance()->flg = 2;
             }
             else {
                 if (Input::GetInstance()->GetKey(KEY_INPUT_LEFT)) {
-                    flg = 2;
+                    Stage_Select::getInstance()->flg = 2;
                 }
             }
 
@@ -104,22 +117,22 @@ void Stage_Select::update()
         case 2:
             if (Input::GetInstance()->GetKeyDown(KEY_INPUT_RIGHT))
             {
-                flg = 1;
+                Stage_Select::getInstance()->flg = 1;
             }
             else {
                 if (Input::GetInstance()->GetKey(KEY_INPUT_RIGHT)) {
-                    flg = 1;
+                    Stage_Select::getInstance()->flg = 1;
                 }
             }
 
 
             if (Input::GetInstance()->GetKeyDown(KEY_INPUT_LEFT))
             {
-                flg = 2;
+                Stage_Select::getInstance()->flg = 2;
             }
             else {
                 if (Input::GetInstance()->GetKey(KEY_INPUT_LEFT)) {
-                    flg = 2;
+                    Stage_Select::getInstance()->flg = 2;
                 }
             }
 
@@ -127,22 +140,22 @@ void Stage_Select::update()
         case 3:
             if (Input::GetInstance()->GetKeyDown(KEY_INPUT_RIGHT))
             {
-                flg = 1;
+                Stage_Select::getInstance()->flg = 1;
             }
             else {
                 if (Input::GetInstance()->GetKey(KEY_INPUT_RIGHT)) {
-                    flg = 1;
+                    Stage_Select::getInstance()->flg = 1;
                 }
             }
 
             if (Input::GetInstance()->GetKeyDown(KEY_INPUT_LEFT))
             {
-                flg = 2;
+                Stage_Select::getInstance()->flg = 2;
 
             }
             else {
                 if (Input::GetInstance()->GetKey(KEY_INPUT_LEFT)) {
-                    flg = 2;
+                    Stage_Select::getInstance()->flg = 2;
                 }
             }
 
@@ -150,21 +163,21 @@ void Stage_Select::update()
         case 4:
             if (Input::GetInstance()->GetKeyDown(KEY_INPUT_RIGHT))
             {
-                flg = 1;
+                Stage_Select::getInstance()->flg = 1;
             }
             else {
                 if (Input::GetInstance()->GetKey(KEY_INPUT_RIGHT)) {
-                    flg = 1;
+                    Stage_Select::getInstance()->flg = 1;
                 }
             }
 
             if (Input::GetInstance()->GetKeyDown(KEY_INPUT_LEFT))
             {
-                flg = 2;
+                Stage_Select::getInstance()->flg = 2;
             }
             else {
                 if (Input::GetInstance()->GetKey(KEY_INPUT_LEFT)) {
-                    flg = 2;
+                    Stage_Select::getInstance()->flg = 2;
                 }
             }
 
@@ -172,21 +185,21 @@ void Stage_Select::update()
         case 5:
             if (Input::GetInstance()->GetKeyDown(KEY_INPUT_RIGHT))
             {
-                flg = 1;
+                Stage_Select::getInstance()->flg = 1;
             }
             else {
                 if (Input::GetInstance()->GetKey(KEY_INPUT_RIGHT)) {
-                    flg = 1;
+                    Stage_Select::getInstance()->flg = 1;
                 }
             }
 
             if (Input::GetInstance()->GetKeyDown(KEY_INPUT_LEFT))
             {
-                flg = 2;
+                Stage_Select::getInstance()->flg = 2;
             }
             else {
                 if (Input::GetInstance()->GetKey(KEY_INPUT_LEFT)) {
-                    flg = 2;
+                    Stage_Select::getInstance()->flg = 2;
                 }
             }
 
@@ -194,21 +207,21 @@ void Stage_Select::update()
         case 6:
             if (Input::GetInstance()->GetKeyDown(KEY_INPUT_RIGHT))
             {
-                flg = 1;
+                Stage_Select::getInstance()->flg = 1;
             }
             else {
                 if (Input::GetInstance()->GetKey(KEY_INPUT_RIGHT)) {
-                    flg = 1;
+                    Stage_Select::getInstance()->flg = 1;
                 }
             }
 
             if (Input::GetInstance()->GetKeyDown(KEY_INPUT_LEFT))
             {
-                flg = 2;
+                Stage_Select::getInstance()->flg = 2;
             }
             else {
                 if (Input::GetInstance()->GetKey(KEY_INPUT_LEFT)) {
-                    flg = 2;
+                    Stage_Select::getInstance()->flg = 2;
                 }
             }
 
@@ -216,20 +229,20 @@ void Stage_Select::update()
         case 7:
             if (Input::GetInstance()->GetKeyDown(KEY_INPUT_RIGHT))
             {
-                flg = 1;
+                Stage_Select::getInstance()->flg = 1;
             }
             else {
                 if (Input::GetInstance()->GetKey(KEY_INPUT_RIGHT)) {
-                    flg = 1;
+                    Stage_Select::getInstance()->flg = 1;
                 }
             }
             if (Input::GetInstance()->GetKeyDown(KEY_INPUT_LEFT))
             {
-                flg = 2;
+                Stage_Select::getInstance()->flg = 2;
             }
             else {
                 if (Input::GetInstance()->GetKey(KEY_INPUT_LEFT)) {
-                    flg = 2;
+                    Stage_Select::getInstance()->flg = 2;
                 }
             }
 
@@ -237,28 +250,28 @@ void Stage_Select::update()
         case 8:
             if (Input::GetInstance()->GetKeyDown(KEY_INPUT_RIGHT))
             {
-                flg = 1;
+                Stage_Select::getInstance()->flg = 1;
             }
             else {
                 if (Input::GetInstance()->GetKey(KEY_INPUT_RIGHT)) {
-                    flg = 1;
+                    Stage_Select::getInstance()->flg = 1;
                 }
             }
 
             if (Input::GetInstance()->GetKeyDown(KEY_INPUT_LEFT))
             {
-                flg = 2;
+                Stage_Select::getInstance()->flg = 2;
             }
             else {
                 if (Input::GetInstance()->GetKey(KEY_INPUT_LEFT)) {
-                    flg = 2;
+                    Stage_Select::getInstance()->flg = 2;
                 }
             }
 
             break;
         }
     }
-    if (flg == 1) 
+    if (Stage_Select::getInstance()->flg == 1) 
     {
         
         ease = Back::easeOut(timer, 0, 1,25);
@@ -268,7 +281,7 @@ void Stage_Select::update()
         if (timer ==25) 
         {
             easePosX = 0;
-            flg = 0;
+            Stage_Select::getInstance()->flg = 0;
             Stage_Select::getInstance()->numStage++;
             timer = 0;
             ease = 0;
@@ -278,7 +291,7 @@ void Stage_Select::update()
             }
         }
     }
-    else if (flg == 2) 
+    else if (Stage_Select::getInstance()->flg == 2) 
     {
         ease = Back::easeOut(timer, 0, -1, 25);
         timer++;
@@ -286,7 +299,7 @@ void Stage_Select::update()
         if (easePosX == -1920)
         {
             easePosX = 0;
-            flg = 0;
+            Stage_Select::getInstance()->flg = 0;
             Stage_Select::getInstance()->numStage--;
             timer = 0;
             ease = 0;
