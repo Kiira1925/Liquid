@@ -3,11 +3,17 @@
 #include "player.h"
 #include "input.h"
 #include "scene_choice.h"
+#include <iostream>
 
 
 #include "DxLib.h"
+#define Search pair<int,int>
 
+extern int Liquid[22][22];
 extern Block blocks[BL_MAX];
+using namespace std;
+
+bool searchNum(Block* block, int x, int y);
 
 void Player::init() 
 {
@@ -20,12 +26,51 @@ void Player::init()
 	rel_posY = 0;
 
 	width = 48;      // 画像サイズ
-	height = 72;
+	height = 77;
 
 	timer = 0;       // タイマー
 	state = 0;       // キー入力の種類(0:無し1:右2:左3:上4:下)
-	posNumX = FastPx;     // 初期座標(マップチップの位置)
-	posNumY = FastPy;
+	switch(Stage_Select::getInstance()->numStage)
+	{
+	case 0:
+		posNumX = 13;
+		posNumY = 11;
+		break;
+	case 1:
+		posNumX = 8;
+		posNumY = 11;
+		break;
+	case 2:
+		posNumX = 10;
+		posNumY = 13;
+		break;
+	case 3:
+		posNumX = 13;
+		posNumY = 13;
+		break;
+	case 4:
+		posNumX = 13;
+		posNumY = 7;
+		break;
+	case 5:
+		posNumX = 9;
+		posNumY = 9;
+		break;
+	case 6:
+		posNumX = 6;
+		posNumY = 14;
+		break;
+	case 7:
+		posNumX = 15;
+		posNumY = 10;
+		break;
+	case 8:
+		posNumX = 9;
+		posNumY = 15;
+		break;
+	}
+	//posNumX = FastPx;     // 初期座標(マップチップの位置)
+	//posNumY = FastPy;
 	drawState = 0;   // アニメーションの状態(方向)
 	aniState = 0;    // モーション
 
@@ -34,9 +79,135 @@ void Player::init()
 
 }
 
+void Player::update3(int* temp_block_state)
+{
+	bool block_pass = true;
+	bool block_pass2 = true;
+	bool block_pass3 = true;
+	bool block_pass4 = true;
+	for (int i = 0; i < Map::getInstance()->block_max; i++)
+	{
+		if (*(temp_block_state + i) == 1)
+		{
+			block_pass = false;
+		}
+	}
+	for (int i = 0; i < Map::getInstance()->block_max; i++)
+	{
+		if (*(temp_block_state + i) == 2)
+		{
+			block_pass2 = false;
+		}
+	}
+	for (int i = 0; i < Map::getInstance()->block_max; i++)
+	{
+		if (*(temp_block_state + i) == 3)
+		{
+			block_pass3 = false;
+		}
+	}
+	for (int i = 0; i < Map::getInstance()->block_max; i++)
+	{
+		if (*(temp_block_state + i) == 4)
+		{
+			block_pass4 = false;
+		}
+	}
+
+	//switch (state)
+	//{
+	//case 1:
+	//	// Right
+	//	//if (Map::getInstance()->map_data[posNumY][posNumX + 1] == ROAD && blockState != 1) {
+	//	if (Map::getInstance()->map_data[posNumY][posNumX + 1] == ROAD && block_pass)
+	//	{
+	//		posX += 3;
+	//		if (posX % 12 == 0)
+	//		{
+	//			aniState++;
+	//		}
+	//		if (posX == 48)
+	//		{
+	//			state = 0;
+	//			posX = 0;
+	//			posNumX++;
+	//			aniState = 0;
+	//		}
+	//	}
+	//	else {
+	//		state = 0;
+	//	}
+	//	break;
+
+	//case 2:
+	//	// Left
+	//	if (Map::getInstance()->map_data[posNumY][posNumX - 1] == ROAD && block_pass2) {
+	//		posX -= 3;
+	//		if (posX % 12 == 0)
+	//		{
+	//			aniState++;
+	//		}
+	//		if (posX == -48)
+	//		{
+	//			state = 0;
+	//			posX = 0;
+	//			posNumX--;
+	//			aniState = 0;
+	//		}
+	//	}
+	//	else {
+	//		state = 0;
+	//	}
+	//	break;
+
+	//case 3:
+	//	// Up
+	//	if (Map::getInstance()->map_data[posNumY - 1][posNumX] == ROAD && block_pass3) {
+	//		posY -= 3;
+	//		if (posY % 12 == 0)
+	//		{
+	//			aniState++;
+	//		}
+	//		if (posY == -48)
+	//		{
+	//			state = 0;
+	//			posY = 0;
+	//			posNumY--;
+	//			aniState = 0;
+	//		}
+	//	}
+	//	else {
+	//		state = 0;
+	//	}
+	//	break;
+
+	//case 4:
+	//	// Down
+	//	if (Map::getInstance()->map_data[posNumY + 1][posNumX] == ROAD && block_pass4) {
+	//		posY += 3;
+	//		if (posY % 12 == 0)
+	//		{
+	//			aniState++;
+	//		}
+	//		if (posY == 48)
+	//		{
+	//			state = 0;
+	//			posY = 0;
+	//			posNumY++;
+	//			aniState = 0;
+	//		}
+	//	}
+	//	else {
+	//		state = 0;
+	//	}
+	//	break;
+	//}
+
+}
+
 void Player::update() {}
 
-void Player::update2(Block* block) 
+void Player::update2(Block* block, Block* zero, int* temp_block_state)
 {
 //for (int i = 0; i < Stage_Select::getInstance()->reNum(); i++) {
 //	block[i].update(&block[i]);
@@ -71,19 +242,19 @@ void Player::update2(Block* block)
 
 	}
 
-	if ((posNumY == block->posNumY) && (posNumX + 1 == block->posNumX))
+	if ((Player::getInstance()->posNumY == block->posNumY) && (Player::getInstance()->posNumX + 1 == block->posNumX))
 	{
 		blockState = 1;
 	}
-	else if (posNumY == block->posNumY && posNumX - 1 == block->posNumX)
+	else if (Player::getInstance()->posNumY == block->posNumY && Player::getInstance()->posNumX - 1 == block->posNumX)
 	{
 		blockState = 2;
 	}
-	else if (posNumY - 1 == block->posNumY && posNumX == block->posNumX)
+	else if (Player::getInstance()->posNumY - 1 == block->posNumY && Player::getInstance()->posNumX == block->posNumX)
 	{
 		blockState = 3;
 	}
-	else if (posNumY + 1 == block->posNumY && posNumX == block->posNumX)
+	else if (Player::getInstance()->posNumY + 1 == block->posNumY && Player::getInstance()->posNumX == block->posNumX)
 	{
 		blockState = 4;
 	}
@@ -94,7 +265,7 @@ void Player::update2(Block* block)
 	{
 	case 1:
 		// Right
-		if ((Map::getInstance()->map_data[posNumY][posNumX + 1] == ROAD || Map::getInstance()->map_data[posNumY][posNumX + 1] == DOOR) && blockState != 1) {
+		if ((Map::getInstance()->map_data[Player::getInstance()->posNumY][Player::getInstance()->posNumX + 1] == ROAD || Map::getInstance()->map_data[posNumY][Player::getInstance()->posNumX + 1] == DOOR) && !searchNum(zero,Player::getInstance()->posNumX + 1,Player::getInstance()->posNumY)/*blockState != 1*/) {
 			posX += 3;
 			if (posX % 12 == 0)
 			{
@@ -104,7 +275,7 @@ void Player::update2(Block* block)
 			{
 				state = 0;
 				posX = 0;
-				posNumX++;
+				Player::getInstance()->posNumX++;
 				aniState = 0;
 			}
 		}
@@ -115,7 +286,7 @@ void Player::update2(Block* block)
 
 	case 2:
 		// Left
-		if ((Map::getInstance()->map_data[posNumY][posNumX - 1] == ROAD || Map::getInstance()->map_data[posNumY][posNumX - 1] == DOOR) && blockState != 2) {
+		if ((Map::getInstance()->map_data[posNumY][Player::getInstance()->posNumX - 1] == ROAD || Map::getInstance()->map_data[Player::getInstance()->posNumY][Player::getInstance()->posNumX - 1] == DOOR) && !searchNum(zero, Player::getInstance()->posNumX-1, posNumY)/*blockState != 2*/) {
 			posX -= 3;
 			if (posX % 12 == 0)
 			{
@@ -125,7 +296,7 @@ void Player::update2(Block* block)
 			{
 				state = 0;
 				posX = 0;
-				posNumX--;
+				Player::getInstance()->posNumX--;
 				aniState = 0;
 			}
 		}
@@ -136,7 +307,7 @@ void Player::update2(Block* block)
 
 	case 3:
 		// Up
-		if ((Map::getInstance()->map_data[posNumY - 1][posNumX] == ROAD || Map::getInstance()->map_data[posNumY - 1][posNumX] == DOOR) && blockState != 3) {
+		if ((Map::getInstance()->map_data[Player::getInstance()->posNumY - 1][Player::getInstance()->posNumX] == ROAD || Map::getInstance()->map_data[posNumY - 1][Player::getInstance()->posNumX] == DOOR) && !searchNum(zero, Player::getInstance()->posNumX, Player::getInstance()->posNumY-1)/*blockState != 3*/) {
 			posY -= 3;
 			if (posY % 12 == 0)
 			{
@@ -146,7 +317,7 @@ void Player::update2(Block* block)
 			{
 				state = 0;
 				posY = 0;
-				posNumY--;
+				Player::getInstance()->posNumY--;
 				aniState = 0;
 			}
 		}
@@ -157,7 +328,7 @@ void Player::update2(Block* block)
 
 	case 4:
 		// Down
-		if ((Map::getInstance()->map_data[posNumY + 1][posNumX] == ROAD || Map::getInstance()->map_data[posNumY + 1][posNumX] == DOOR) && blockState != 4) {
+		if ((Map::getInstance()->map_data[Player::getInstance()->posNumY + 1][Player::getInstance()->posNumX] == ROAD || Map::getInstance()->map_data[Player::getInstance()->posNumY + 1][Player::getInstance()->posNumX] == DOOR) && !searchNum(zero, Player::getInstance()->posNumX, Player::getInstance()->posNumY+1)/*blockState != 4*/) {
 			posY += 3;
 			if (posY % 12 == 0)
 			{
@@ -167,7 +338,7 @@ void Player::update2(Block* block)
 			{
 				state = 0;
 				posY = 0;
-				posNumY++;
+				Player::getInstance()->posNumY++;
 				aniState = 0;
 			}
 		}
@@ -176,17 +347,17 @@ void Player::update2(Block* block)
 		}
 		break;
 	}
-
+	*temp_block_state = blockState;
 }
 
 void Player::draw() 
 {   //実際の描画位置+(チップサイズ×何番目のチップか)＋追加する座標[yは飛び出た分の24を足す],,画像サイズ×画像のState,,描画サイズ,,
-	DrawRectGraph(rel_posX + (CHIP_SIZE * posNumX)+posX , rel_posY + (CHIP_SIZE * posNumY)+posY -24, width*aniState, height * drawState, width, height, handle, true, false);
+	DrawRectGraph(rel_posX + (CHIP_SIZE * Player::getInstance()->posNumX)+posX , rel_posY + (CHIP_SIZE * Player::getInstance()->posNumY)+posY -29, width*aniState, height * drawState, width, height, handle, true, false);
 }
 
 void Player::drawHead()
 {
-	DrawRectGraph(rel_posX + (CHIP_SIZE * posNumX) + posX, rel_posY + (CHIP_SIZE * posNumY) + posY - 24, width * aniState, height * drawState, width, height-48, handle, true, false);
+	DrawRectGraph(rel_posX + (CHIP_SIZE * Player::getInstance()->posNumX) + posX, rel_posY + (CHIP_SIZE * Player::getInstance()->posNumY) + posY - 29, width * aniState, height * drawState, width, height-48, handle, true, false);
 }
 
 void Player::goalCheck(boolean* isGoal)
@@ -204,9 +375,21 @@ void Player::goalCheck(boolean* isGoal)
 			}
 		}
 	}
-	if (posNumY == goalY && posNumX == goalX)
+	if (Player::getInstance()->posNumY == goalY && Player::getInstance()->posNumX == goalX)
 	{
 		*isGoal = true;
+	}
+}
+
+void Player::playerDamage(int* RB_timer)
+{
+	if (Liquid[Player::getInstance()->posNumY][Player::getInstance()->posNumX] == 1)
+	{
+		*RB_timer += 1;
+	}
+	else if (*RB_timer > 0)
+	{
+		*RB_timer -= 1;
 	}
 }
 
@@ -241,7 +424,7 @@ void Block::init(Block* block,int x,int y)
 
 }
 
-void Block::update(Block* block) 
+void Block::update(Block* block, int block_sound) 
 {
 
 	// 隣接していて、かつ壁・プレイヤー・岩でないなら
@@ -356,6 +539,10 @@ void Block::update(Block* block)
 				block->posNumX++;
 				block->aniState = 0;
 			}
+			if (!CheckSoundMem(block_sound))
+			{
+				PlaySoundMem(block_sound, DX_PLAYTYPE_BACK);
+			}
 		}
 		else {
 			block->state = 0;
@@ -377,6 +564,10 @@ void Block::update(Block* block)
 				block->posNumX--;
 				block->aniState = 0;
 			}
+			if (!CheckSoundMem(block_sound))
+			{
+				PlaySoundMem(block_sound, DX_PLAYTYPE_BACK);
+			}
 		}
 		else {
 			block->state = 0;
@@ -386,6 +577,8 @@ void Block::update(Block* block)
 	case 3:
 		// Up
 		if (Map::getInstance()->map_data[block->posNumY - 1][block->posNumX] == ROAD /*&& block->blockState != 0*/) {
+			if(block->blockState != 1 && block->blockState!= 2)
+			{
 			block->posY -= 3;
 			if (block->posY % 12 == 0)
 			{
@@ -397,6 +590,11 @@ void Block::update(Block* block)
 				block->posY = 0;
 				block->posNumY--;
 				block->aniState = 0;
+			}
+			if (!CheckSoundMem(block_sound))
+			{
+				PlaySoundMem(block_sound, DX_PLAYTYPE_BACK);
+			}
 			}
 		}
 		else {
@@ -412,6 +610,8 @@ void Block::update(Block* block)
 		//	block->blockState = 0;
 		//}
 		if (Map::getInstance()->map_data[block->posNumY + 1][block->posNumX] == ROAD /*&& block->blockState != 0*/) {
+			if (block->blockState != 1 && block->blockState != 2)
+			{
 			block->posY += 3;
 			if (block->posY % 12 == 0)
 			{
@@ -423,6 +623,11 @@ void Block::update(Block* block)
 				block->posY = 0;
 				block->posNumY++;
 				block->aniState = 0;
+			}
+			if (!CheckSoundMem(block_sound))
+			{
+				PlaySoundMem(block_sound, DX_PLAYTYPE_BACK);
+			}
 			}
 		}
 		else {
@@ -442,4 +647,20 @@ void Block::draw(Block* block)
 void Block::end(Block* block) 
 {
 	DeleteGraph(block->handle);
+}
+
+bool searchNum(Block* block, int x, int y)
+{
+	Search search;
+	Search player;
+	player = { y,x };
+	for (int i = 0; i < Map::getInstance()->block_max; i++)
+	{
+		search = { (block + i)->posNumY,(block + i)->posNumX };
+		if (search == player)
+		{
+			return true;
+		}
+	}
+	return false;
 }

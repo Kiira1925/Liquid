@@ -25,9 +25,13 @@ void Game_Bg::end(Game_Bg* game_bg)
     DeleteGraph(game_bg->handle);
 }
 
-void Game_Conduct::updateDebug(Game_Conduct* game_conduct, Usable* usable)
+void Game_Conduct::updateDebug(Game_Conduct* game_conduct, Usable* usable,int select_sound)
 {
-    if (Input::GetInstance()->GetKeyDown(KEY_INPUT_1)) usable->changeSceneStateInit(Title);
-    if (Input::GetInstance()->GetKeyDown(KEY_INPUT_2)) usable->changeSceneStateInit(Choice);
-    if (Input::GetInstance()->GetKeyDown(KEY_INPUT_3)) usable->changeSceneStateInit(Game);
+    //if (Input::GetInstance()->GetKeyDown(KEY_INPUT_1)) usable->changeSceneStateInit(Title);
+    //if (Input::GetInstance()->GetKeyDown(KEY_INPUT_2)) usable->changeSceneStateInit(Choice);
+    if (Input::GetInstance()->GetKeyDown(KEY_INPUT_R))
+    {
+        usable->changeSceneStateInit(Game);
+        if (!CheckSoundMem(select_sound)) { PlaySoundMem(select_sound,DX_PLAYTYPE_BACK); }
+    }
 }

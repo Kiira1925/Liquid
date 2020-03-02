@@ -4,6 +4,7 @@
 #include "liquid.h"
 #include "map.h"
 #include "DxLib.h"
+#include "scene_choice.h"
 
 
 using namespace std;
@@ -74,7 +75,37 @@ void initLiquid()
 			//}
 		}
 	}
-	liquid_max = 20;
+	switch (Stage_Select::getInstance()->numStage)
+	{
+	case 0:
+		liquid_max = 3;
+		break;
+	case 1:
+		liquid_max = 6;
+		break;
+	case 2:
+		liquid_max = 8;
+		break;
+	case 3:
+		liquid_max = 8;
+		break;
+	case 4:
+		liquid_max = 11;
+		break;
+	case 5:
+		liquid_max = 13;
+		break;
+	case 6:
+		liquid_max = 16;
+		break;
+	case 7:
+		liquid_max = 15;
+		break;
+	case 8:
+		liquid_max = 11;
+		break;
+	}
+	//liquid_max = 20;
 	poison_aniTimer = 0;
 }
 
@@ -236,7 +267,7 @@ void drawWave(int handle)
 	}
 }
 
-void drawPoison(int handle)
+void drawPoison(int handle, int poison_sound)
 {
 	poison_aniTimer++;
 	int anime_frame = poison_aniTimer%48/8;
@@ -259,6 +290,10 @@ void drawPoison(int handle)
 				if ((up && down && left && right) || (up && down && !left && !right) || (!up && !down && left && right))
 				{
 					DrawRectGraph(Hor * CHIP_SIZE + 420, Ver * CHIP_SIZE, CHIP_SIZE * anime_frame, CHIP_SIZE * 1, CHIP_SIZE, CHIP_SIZE, handle, TRUE);
+				}
+				if (up && down && !left && !right)
+				{
+
 				}
 				if (!up && down && !left && right)
 				{
@@ -335,6 +370,10 @@ void drawPoison(int handle)
 			{
 				bubble_pos[2] = { GetRand(21), GetRand(21) };
 			} while (Liquid[bubble_pos[2].first][bubble_pos[2].second] != 1);
+			if (!CheckSoundMem(poison_sound))
+			{
+				PlaySoundMem(poison_sound,DX_PLAYTYPE_BACK);
+			}
 		}
 		DrawRectGraph(bubble_pos[0].second * CHIP_SIZE + 420, bubble_pos[0].first * CHIP_SIZE, CHIP_SIZE * anime_frame, CHIP_SIZE * 14, CHIP_SIZE, CHIP_SIZE, handle, TRUE);
 		DrawRectGraph(bubble_pos[1].second * CHIP_SIZE + 420, bubble_pos[1].first * CHIP_SIZE, CHIP_SIZE * anime_frame2, CHIP_SIZE * 14, CHIP_SIZE, CHIP_SIZE, handle, TRUE);
@@ -672,17 +711,6 @@ void BFS_FILL()
 		for (int Hor = 0; Hor < MAPDATA_H_MAX; Hor++)
 		{
 			fill_visit[Ver][Hor] = -1;
-		}
-	}
-}
-
-bool Spring::spawnCheck()
-{
-	for (int Ver = 0; Ver < MAPDATA_V_MAX; Ver++)
-	{
-		for (int Hor = 0; Hor < MAPDATA_H_MAX; Hor++)
-		{
-			return 0;
 		}
 	}
 }

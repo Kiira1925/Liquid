@@ -33,6 +33,7 @@ public:
 	void drawMap();
 	void drawBreakable();
 	void drawSpring();
+	void drawGoal();
 	void loadChipData();
 	void loadMapData(int stage_num);
 };

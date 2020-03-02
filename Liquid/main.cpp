@@ -34,11 +34,21 @@ Relative        relative;
 Scene_State     state;
 
 Block blocks[BL_MAX];
+int temp_block_state[BL_MAX];
+
 int poison_hanlde;
 int break_handle;
 int BB_handle;
 int BB_timer;
 int BB_flag;
+
+int end_timer;
+int end_flg;
+
+int RB_timer;
+int RB_handle;
+
+int BG_handle;
 
 //ステージ切り替え演出用変数
 boolean isGoal;
@@ -48,9 +58,15 @@ float transparency_amount;
 int text_back_handle;
 int clear_handle;
 
+int title_timer;
+int title_flg;
+
 //サウンドハンドル
 int melt_sound;
 int goal_sound;
+int block_sound;
+int poison_sound;
+int select_sound;
 
 //
 // 定義ここまで
@@ -64,6 +80,9 @@ int goal_sound;
 void Scene_Title::init(void)
 {
     title_bg.init(&title_bg);
+    select_sound = LoadSoundMem("Data\\Sounds\\select.mp3");
+    title_timer = 0;
+    title_flg = false;
 }
 
 // タイトル更新処理
@@ -71,6 +90,19 @@ void Scene_Title::update(int GameTime)
 {
     title_bg.update(&title_bg);
     title_conduct.updateDebug(&title_conduct, &usable);     // debug
+    if (Input::GetInstance()->GetKeyDown(KEY_INPUT_Z))
+    {
+        title_flg = true;
+        if (!CheckSoundMem(select_sound)) { PlaySoundMem(select_sound, DX_PLAYTYPE_BACK); }
+    }
+    if (title_flg == true)
+    {
+        title_timer++;
+        if (title_timer > 60)
+        {
+            usable.changeSceneStateInit(Choice);
+        }
+    }
 }
 
 // タイトル描画処理
@@ -103,6 +135,8 @@ void Scene_Choice::init(void)
     BB_handle = LoadGraph("Data\\Images\\BB.png");
     BB_timer = 0;
     BB_flag = false;
+    end_timer = 0;
+    end_flg = false;
 }
 
 // ステージ選択更新処理
@@ -111,7 +145,27 @@ void Scene_Choice::update(int GameTime)
     choice_bg.update(&choice_bg);
 
     Stage_Select::getInstance()->update();
-    if (Input::GetInstance()->GetKey(KEY_INPUT_RETURN) && Stage_Select::getInstance()->flg == 0) { BB_flag = true; }
+    if (Input::GetInstance()->GetKey(KEY_INPUT_Z) && Stage_Select::getInstance()->flg == 0)
+    {
+        BB_flag = true;
+        if (!CheckSoundMem(select_sound))
+        {
+            PlaySoundMem(select_sound, DX_PLAYTYPE_BACK);
+        }
+    }
+    if (Input::GetInstance()->GetKey(KEY_INPUT_END))
+    {
+        end_flg = true;
+        if (!CheckSoundMem(select_sound)) { PlaySoundMem(select_sound, DX_PLAYTYPE_BACK); }
+    }
+    if (end_flg == true)
+    {
+        end_timer++;
+        if (end_timer > 60)
+        {
+            usable.changeSceneStateInit(Title);
+        }
+    }
 
     choice_conduct.updateDebug(&choice_conduct, &usable);   // debug
 }
@@ -149,12 +203,50 @@ void Scene_Choice::end(void)
 // ゲーム初期化処理
 void Scene_Game::init(void)
 {
+    blocks[0].init(&blocks[0], 10, 10);
+    blocks[1].init(&blocks[1],7,10);
+
+    RB_handle = LoadGraph("Data\\Images\\RB.png");
+    RB_timer = 0;
+
     melt_sound = LoadSoundMem("Data\\Sounds\\melt.wav");
     goal_sound = LoadSoundMem("Data\\Sounds\\goal.mp3");
+    block_sound = LoadSoundMem("Data\\Sounds\\Block.ogg");
+    poison_sound = LoadSoundMem("Data\\Sounds\\poison.mp3");
     isGoal = false;
     goal_performance_tiemr = 0;
     transparency_amount = 255;
-    game_bg.init(&game_bg);
+    switch (Stage_Select::getInstance()->reNum())
+    {
+    case 1:
+        BG_handle = LoadGraph("Data\\Images\\stage0.png");
+        break;
+    case 2:
+        BG_handle = LoadGraph("Data\\Images\\stage1.png");
+        break;
+    case 3:
+        BG_handle = LoadGraph("Data\\Images\\stage2.png");
+        break;
+    case 4:
+        BG_handle = LoadGraph("Data\\Images\\stage3.png");
+        break;
+    case 5:
+        BG_handle = LoadGraph("Data\\Images\\stage4.png");
+        break;
+    case 6:
+        BG_handle = LoadGraph("Data\\Images\\stage5.png");
+        break;
+    case 7:
+        BG_handle = LoadGraph("Data\\Images\\stage6.png");
+        break;
+    case 8:
+        BG_handle = LoadGraph("Data\\Images\\stage7.png");
+        break;
+    case 9:
+        BG_handle = LoadGraph("Data\\Images\\stage8.png");
+        break;
+    }
+    //game_bg.init(&game_bg);
     map.init(Stage_Select::getInstance()->reNum());
     //map.init(0);
     initField();
@@ -163,50 +255,56 @@ void Scene_Game::init(void)
     switch (Stage_Select::getInstance()->reNum())
     {
     case 1:
-        blocks[0].init(&blocks[0],7,8);
-        blocks[1].init(&blocks[1],7,10);
+        blocks[0].init(&blocks[0],10,10);
+        //blocks[1].init(&blocks[1],7,10);
         break;
 
     case 2:
-        blocks[0].init(&blocks[0],7,8);
-        blocks[1].init(&blocks[1], 7, 10);
+        blocks[0].init(&blocks[0],10,9);
+        //blocks[1].init(&blocks[1], 7, 10);
         break;
 
     case 3:
-        blocks[0].init(&blocks[0], 0, 0);
-        blocks[1].init(&blocks[1], 0, 0);
+        blocks[0].init(&blocks[0], 8, 12);
+        blocks[1].init(&blocks[1], 10, 8);
         break;
 
     case 4:
-        blocks[0].init(&blocks[0], 0, 0);
-        blocks[1].init(&blocks[1], 0, 0);
+        blocks[0].init(&blocks[0], 9, 10);
+        blocks[1].init(&blocks[1], 11, 12);
         break;
 
     case 5:
-        blocks[0].init(&blocks[0], 0, 0);
-        blocks[1].init(&blocks[1], 0, 0);
+        blocks[0].init(&blocks[0], 11, 9);
+        blocks[1].init(&blocks[1], 12, 13);
         break;
 
     case 6:
-        blocks[0].init(&blocks[0], 0, 0);
-        blocks[1].init(&blocks[1], 0, 0);
+        blocks[0].init(&blocks[0], 6, 8);
+        blocks[1].init(&blocks[1], 12, 11);
         break;
 
     case 7:
-        blocks[0].init(&blocks[0], 0, 0);
-        blocks[1].init(&blocks[1], 0, 0);
+        blocks[0].init(&blocks[0], 8, 11);
+        blocks[1].init(&blocks[1], 11, 16);
+        blocks[2].init(&blocks[2], 11, 8);
         break;
 
     case 8:
-        blocks[0].init(&blocks[0], 0, 0);
-        blocks[1].init(&blocks[1], 0, 0);
+        blocks[0].init(&blocks[0], 13, 9);
+        blocks[1].init(&blocks[1], 10, 9);
+        blocks[2].init(&blocks[2], 8, 11);
         break;
 
     case 9:
-        blocks[0].init(&blocks[0], 0, 0);
-        blocks[1].init(&blocks[1], 0, 0);
+        blocks[0].init(&blocks[0], 4, 14);
+        blocks[1].init(&blocks[1], 11, 6);
+        blocks[2].init(&blocks[2], 13, 11);
         break;
     }
+
+    end_timer = 0;
+    end_flg = false;
 
     poison_hanlde = LoadGraph("Data\\Images\\poisonasset.png");
     break_handle = LoadGraph("Data\\Images\\breaking.png");
@@ -223,56 +321,60 @@ void Scene_Game::update(int GameTime)
     map.update();
     if (isGoal == false)
     {
-        Player::getInstance()->update2(&blocks[0]);
+        Player::getInstance()->update2(&blocks[0],&blocks[0],&temp_block_state[0]);
         switch (Stage_Select::getInstance()->reNum())
         {
         case 1:
-            blocks[0].update(&blocks[0]);
-            blocks[1].update(&blocks[1]);
+            blocks[0].update(&blocks[0],block_sound);
+            //blocks[1].update(&blocks[1]);
             break;
 
         case 2:
-            blocks[0].update(&blocks[0]);
-            blocks[1].update(&blocks[1]);
+            blocks[0].update(&blocks[0], block_sound);
+            //blocks[1].update(&blocks[1]);
             break;
 
         case 3:
-            blocks[0].update(&blocks[0]);
-            blocks[1].update(&blocks[1]);
+            blocks[0].update(&blocks[0], block_sound);
+            blocks[1].update(&blocks[1], block_sound);
             break;
 
         case 4:
-            blocks[0].update(&blocks[0]);
-            blocks[1].update(&blocks[1]);
+            blocks[0].update(&blocks[0], block_sound);
+            blocks[1].update(&blocks[1], block_sound);
             break;
 
         case 5:
-            blocks[0].update(&blocks[0]);
-            blocks[1].update(&blocks[1]);
+            blocks[0].update(&blocks[0], block_sound);
+            blocks[1].update(&blocks[1], block_sound);
             break;
 
         case 6:
-            blocks[0].update(&blocks[0]);
-            blocks[1].update(&blocks[1]);
+            blocks[0].update(&blocks[0], block_sound);
+            blocks[1].update(&blocks[1], block_sound);
             break;
 
         case 7:
-            blocks[0].update(&blocks[0]);
-            blocks[1].update(&blocks[1]);
+            blocks[0].update(&blocks[0], block_sound);
+            blocks[1].update(&blocks[1], block_sound);
+            blocks[2].update(&blocks[2], block_sound);
             break;
 
         case 8:
-            blocks[0].update(&blocks[0]);
-            blocks[1].update(&blocks[1]);
+            blocks[0].update(&blocks[0], block_sound);
+            blocks[1].update(&blocks[1], block_sound);
+            blocks[2].update(&blocks[2], block_sound);
             break;
 
         case 9:
-            blocks[0].update(&blocks[0]);
-            blocks[1].update(&blocks[1]);
+            blocks[0].update(&blocks[0], block_sound);
+            blocks[1].update(&blocks[1], block_sound);
+            blocks[2].update(&blocks[2], block_sound);
             break;
         }
     }
-    game_conduct.updateDebug(&game_conduct, &usable);   // debug
+    Player::getInstance()->update3(&temp_block_state[0]);
+    game_conduct.updateDebug(&game_conduct, &usable,select_sound);   // debug
     countPoison();
     BFS();
     spreadWave(poison_hanlde);
@@ -295,28 +397,47 @@ void Scene_Game::update(int GameTime)
             usable.changeSceneStateInit(Game);
         }
     }
+
+    Player::getInstance()->playerDamage(&RB_timer);
+    if (RB_timer > 40)
+    {
+        usable.changeSceneStateInit(Game);
+    }
+    if (Input::GetInstance()->GetKey(KEY_INPUT_END))
+    {
+        end_flg = true;
+        if (!CheckSoundMem(select_sound)) { PlaySoundMem(select_sound, DX_PLAYTYPE_BACK); }
+    }
+    if (end_flg == true)
+    {
+        end_timer++;
+        if (end_timer > 60)
+        {
+            usable.changeSceneStateInit(Title);
+        }
+    }
 }
 
 // ゲーム描画処理
 void Scene_Game::draw(int GameTime)
 {
-    game_bg.draw(&game_bg);
+    //game_bg.draw(&game_bg);
+    DrawGraph(0, 0, BG_handle, TRUE);
     map.draw();
-    drawPoison(poison_hanlde);
+    drawPoison(poison_hanlde,poison_sound);
     drawWave(poison_hanlde);
+    map.drawGoal();
     Player::getInstance()->draw();
-    map.drawBreakable();
-    map.drawSpring();
     switch (Stage_Select::getInstance()->reNum())
     {
     case 1:
         blocks[0].draw(&blocks[0]);
-        blocks[1].draw(&blocks[1]);
+        //blocks[1].draw(&blocks[1]);
         break;
 
     case 2:
         blocks[0].draw(&blocks[0]);
-        blocks[1].draw(&blocks[1]);
+        //blocks[1].draw(&blocks[1]);
         break;
 
     case 3:
@@ -342,18 +463,23 @@ void Scene_Game::draw(int GameTime)
     case 7:
         blocks[0].draw(&blocks[0]);
         blocks[1].draw(&blocks[1]);
+        blocks[2].draw(&blocks[2]);
         break;
 
     case 8:
         blocks[0].draw(&blocks[0]);
         blocks[1].draw(&blocks[1]);
+        blocks[2].draw(&blocks[2]);
         break;
 
     case 9:
         blocks[0].draw(&blocks[0]);
         blocks[1].draw(&blocks[1]);
+        blocks[2].draw(&blocks[2]);
         break;
     }
+    map.drawBreakable();
+    map.drawSpring();
     breakAnimation(break_handle);
     Player::getInstance()->drawHead();
 
@@ -378,6 +504,9 @@ void Scene_Game::draw(int GameTime)
         }
 
     }
+    SetDrawBlendMode(DX_BLENDMODE_ALPHA, (RB_timer * 6));
+    DrawGraph(0, 0, RB_handle, TRUE);
+    SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
     sys.drawDebugString();      // debug
 }
 

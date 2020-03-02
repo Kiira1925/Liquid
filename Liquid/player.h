@@ -22,7 +22,7 @@ class Block :public Sprite
 {
 public:
     void init(Block* block,int x,int y);
-    void update(Block* block);
+    void update(Block* block,int block_sound);
     void draw(Block* block);
     void end(Block* block);
 
@@ -62,7 +62,10 @@ public:
     void update();
     void draw();
     void end();
-    void update2(Block* block);
+    void update2(Block* block, Block* zero, int* temp_block_state);
+    void update3(int* temp_block_state);
+
+    void playerDamage(int* RB_timer);
 
     void drawHead();
     void goalCheck(boolean* isGoal);

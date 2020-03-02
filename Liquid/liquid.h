@@ -27,7 +27,7 @@ void meltBreakable(int* melt_sound);
 void breakAnimation(int break_handle);
 void spreadWave(int handle);
 void drawWave(int handle);
-void drawPoison(int handle);
+void drawPoison(int handle, int poison_sound);
 void deleteLiquid(Block* instanceOfZERO);
 void BFS();
 void BFS_FILL();

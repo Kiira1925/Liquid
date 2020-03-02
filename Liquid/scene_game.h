@@ -21,6 +21,6 @@ private:
 class Game_Conduct
 {
 public:
-    void updateDebug(Game_Conduct* game_conduct, Usable* usable);   // デバッグ用の更新処理
+    void updateDebug(Game_Conduct* game_conduct, Usable* usable,int select_sound);   // デバッグ用の更新処理
 
 };
