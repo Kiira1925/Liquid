@@ -393,8 +393,15 @@ void Scene_Game::update(int GameTime)
         DrawRotaGraph3F(0, 0, 0, 0, 1, 1, 0, text_back_handle, TRUE);
         if (goal_performance_tiemr > 120)
         {
-            Stage_Select::getInstance()->numStage++;
-            usable.changeSceneStateInit(Game);
+            if (Stage_Select::getInstance()->numStage == 8)
+            {
+                usable.changeSceneStateInit(Title);
+            }
+            else
+            {
+                Stage_Select::getInstance()->numStage++;
+                usable.changeSceneStateInit(Game);
+            }
         }
     }
 
